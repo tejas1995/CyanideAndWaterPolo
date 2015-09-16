@@ -10,7 +10,7 @@ using namespace std;
 #define CROSS_SWIM_TIME 8
 
 player Player[2] = {Player(60, SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME),
-                    pLAYER(60, SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME)};
+                    Player(60, SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME)};
 ball Ball;
 
 enum PlayerCodes
