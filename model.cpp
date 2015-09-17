@@ -1,4 +1,4 @@
-#include <model.h>
+#include "model.h"
 int checkCollision(player player1, player player2)
 {
 	int x1 = player1.getX(); int x2 = player2.getX();
@@ -11,7 +11,7 @@ int checkCollision(player player1, player player2)
 
 	if(distance <= (r1+r2)) 
 	{
-		angle = acos((float)abs(y2-y1)/(float)distance)
+		int angle = acos((float)abs(y2-y1)/(float)distance);
 		return angle*(-1);
 	}
 	return 0;
@@ -29,7 +29,7 @@ int checkCollision(ball ball, player player)
 
 	if(distance <= (r1+r2))
 	{
-		angle = acos((float)abs(y2-y1)/(float)distance)
+		int angle = acos((float)abs(y2-y1)/(float)distance);
 		return angle*(-1);
 	}
 	return 0;
@@ -56,10 +56,10 @@ int checkCollision(ball ball, hand hand)
 	}
 
 	int xTip = x - height*sine; int yTip = y - height*cosine;
-
+//Khujao to fix
 	if(sqrt((h-xTip)*(h-xTip) + (k-yTip)*(k-yTip)) <= radius)
 	{
-		angle = acos((float)abs(y2-y1)/(float)distance)
+		int angle = acos((float)abs(yTip-k)/(float)distance);
 		return angle*(-1);
 	}
 
@@ -90,12 +90,16 @@ int checkCollision(ball ball, SDL_Rect rect)
 	return 0;
 }
 
-int updateObjects(int* keystates, player players[], goal goals[], ball* ball, water* water){
+int updateObjects(int* keystates, player player[], goal goals[], ball* ball, water* water){
+	//Get mode
 	if (keystates[KEY_SHIFT] == 1){
-
-	if (players[USER].getMode() == WADE)
+		player[USER].setMode(SWIM);
+	}
+	//Now we know the mode
+	if (player[USER].getMode() == WADE)
 	{
 		
 	}
+	return 0;
 }
 

@@ -85,8 +85,11 @@ class player: public entity{
 
 class water{
 	private:
+		int depth;
 		LTexture texture;
 	public:
+		int getDepth();
+		bool setDepth(int);
 		LTexture* getTexture();
 };
 
@@ -99,8 +102,8 @@ class goal{
 		LTexture* getTexture();
 		bool setX(int);
 		bool setY(int);
-		int getX(int);
-		int getY(int);
+		int getX();
+		int getY();
 		bool defineTopNet(int, int, int, int);
 		bool defineBackNet(int, int, int, int);
 		bool defineBlankSpace(int, int, int, int);
