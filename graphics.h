@@ -6,12 +6,6 @@
 #include <string>
 #include <stdio.h>
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-
-SDL_Window* mWindow = NULL;
-SDL_Renderer* gRenderer = NULL;
-
 bool init();
 
 class LTexture
