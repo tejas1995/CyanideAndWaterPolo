@@ -2,6 +2,7 @@
 #define KEY_PRESS_ACCELERATION_WADE 10
 #define KEY_PRESS_ACCELERATION_SWIM 10
 #define GRAVITY_ACCELERATION 10
+#define BASE_HEIGHT 280
 
 int checkCollision(player player1, player player2)
 {
@@ -146,7 +147,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 			if(player[pCode].getY() == BASE_HEIGHT)
 				uvy = player[pCode].getMaxJumpVelocity();
 			else
-				uvy += GRAVITY_ACCELERATION
+				uvy += GRAVITY_ACCELERATION;
 		}
 	}
 	else if(player[pCode].getMode() == SWIM)

@@ -144,7 +144,7 @@ void game()
         }
         
         //Send keyStates to the physics model
-        updateObjects(keyStates, Player, Goal, &Ball, &Water);
+        updateObjects(keyStates, Player, Goal, &Ball, &Water, USER);
 
         //Check for Score updation
         if(checkCollision(Ball, Goal[ USER ].getBlankSpace()) != 0)
