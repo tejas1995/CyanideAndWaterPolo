@@ -14,15 +14,6 @@ SDL_Renderer* gRenderer = NULL;
 
 bool init();
 
-enum{
-	BACKGROUND_TEXTURE,
-	WATER_TEXTURE,
-	GOAL_TEXTURE,
-	PLAYER_TEXTURE,
-	BALL_TEXTURE,
-	TOTAL_TEXTURES
-};
-
 class LTexture
 {
 public:
@@ -38,7 +29,7 @@ public:
 	void free();
 
 	//Render at (x,y)
-	void render(int x, int y);
+	void render(int x, int y, double angle=0.0, int center_x = -1, int center_y = -1);
 
 	//Get Dimensions
 	int getWidth();

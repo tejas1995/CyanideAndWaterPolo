@@ -2,9 +2,9 @@
 
 LTexture::LTexture()
 {
-	this-> mTexture = NULL;
-	this-> mWidth = 0;
-	this-> mHeight = 0;
+	this->mTexture = NULL;
+	this->mWidth = 0;
+	this->mHeight = 0;
 }
 
 LTexture::~LTexture()
@@ -16,10 +16,10 @@ void LTexture::free()
 {
 	if(this->mTexture!= NULL)
 	{
-		SDL_DestroyTexture(this-> mTexture);
-		this-> mTexture = NULL;
-		this-> mWidth = 0;
-		this-> mHeight = 0;
+		SDL_DestroyTexture(this->mTexture);
+		this->mTexture = NULL;
+		this->mWidth = 0;
+		this->mHeight = 0;
 	}
 }
 
@@ -43,29 +43,40 @@ bool LTexture::loadFromFile(std::string path)
 		}
 		else
 		{
-			this-> mWidth = loadedSurface->w;
-			this-> mHeight = loadedSurface->h;
+			this->mWidth = loadedSurface->w;
+			this->mHeight = loadedSurface->h;
 		}
 		SDL_FreeSurface(loadedSurface);
 	}
-	this-> mTexture = newTexture;
+	this->mTexture = newTexture;
 	return ((this->mTexture)!=NULL);
 }
 
-void LTexture::render(int x,int y)
+void LTexture::render(int x,int y, double angle, int center_x,int center_y)
 {
-	SDL_Rect renderQuad = {x ,y , mWidth, mHeight};
-	SDL_RenderCopy(gRenderer, (this-> mTexture), NULL, &renderQuad);
+	SDL_Point center = {center_x,center_y};
+	SDL_Rect renderQuad = {x ,y , this->mWidth, this->mHeight};
+	if(center_x==-1||center_y == -1)
+	{
+		center.x = x + (this->mWidth)/2;
+		center.y = y + (this->mHeight)/2;
+		SDL_RenderCopyEx(gRenderer, (this->mTexture), NULL, &renderQuad, angle, &center, SDL_FLIP_NONE);
+	}
+	else
+	{
+		SDL_RenderCopyEx(gRenderer, (this->mTexture), NULL, &renderQuad, angle, &center, SDL_FLIP_NONE);
+	}
+	
 }
 
 int LTexture::getWidth()
 {
-	return (this-> mWidth);
+	return (this->mWidth);
 }
 
 int LTexture::getHeight()
 {
-	return (this-> mHeight);
+	return (this->mHeight);
 }
 
 bool init()
@@ -94,14 +105,98 @@ bool init()
 			}
 		}
 	}
+	return true;
+}
+
+
+
+
+
+
+
+
+/*LTexture face;
+LTexture bground;
+
+void close()
+{
+	face.free();
+	bground.free();
+
+	SDL_DestroyRenderer(gRenderer);
+	SDL_DestroyWindow(mWindow);
+
+	mWindow = NULL;
+	gRenderer = NULL;
+
+	IMG_Quit();
+	SDL_Quit();
 }
 
 bool loadMedia()
 {
-		
-}
-
+	if(!(face.loadFromFile("img/obama_2.png")))
+	{
+		return false;
+	}
+	else if(!(bground.loadFromFile("img/bground.png")))
+	{
+		return false;
+	}
+	return true;
+}*/
 int main(int argc, char const *argv[])
 {
-	return 0;
-}
+	/*int degrees =0;
+	if(!init())
+	{
+		printf("Error1.\n");
+	}
+		else
+		{
+			if(!loadMedia())
+			{
+				printf("Error2.\n");
+			}
+			else
+			{
+				bool quit = false;
+				SDL_Event e;
+				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+				SDL_RenderClear(gRenderer);
+				bground.render(0,0,0,0,0);	
+				face.render(0,0,degrees);
+				SDL_RenderPresent(gRenderer);
+				while(!quit)
+				{
+					while(SDL_PollEvent(&e)!=0)
+					{
+						if(e.type == SDL_QUIT)
+						{
+							quit = true;
+						}
+						else if(e.type == SDL_KEYDOWN)
+						{
+							SDL_RenderClear(gRenderer);
+							switch(e.key.keysym.sym)
+							{
+								case SDLK_LEFT:{
+									degrees-=10;
+									face.render(0,0);
+									break;
+								}
+								case SDLK_RIGHT:{
+									degrees+=10;
+									face.render(0,0,degrees,300,100);
+								}
+							}
+							SDL_RenderPresent(gRenderer);
+						}
+					}
+									
+				}
+				close();
+			}
+		}*/
+	return 0;	
+	}
