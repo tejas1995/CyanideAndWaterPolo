@@ -69,13 +69,17 @@ class hand: public entity{
 };
 class player: public entity{
 	private:
-		int maxJumpHeight;
+		int maxJumpVelocity;
 		int maxWadeVelocity;
 		int maxSwimVelocity;
 		int mode;
 		hand haath;
 		int radius;
 	public:
+		bool setAttributes(int , int , int);
+		int getMaxJumpVelocity();
+		int getMaxWadeVelocity();
+		int getMaxSwimVelocity();
 		int getMode();
 		int getRadius();
 		bool setMode(int);

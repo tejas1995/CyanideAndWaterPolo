@@ -103,6 +103,29 @@ bool player::setMode(int s){
 	mode = s;
 	return true;
 }
+
+bool player::setAttributes(int Jump, int Wade, int Swim)
+{
+	maxJumpVelocity = Jump;
+	maxWadeVelocity = Wade;
+	maxSwimVelocity = Swim;
+}
+
+int player::getMaxJumpVelocity()
+{
+	return maxJumpVelocity;
+}
+
+int player::getMaxWadeVelocity()
+{
+	return maxWadeVelocity;
+}
+
+int player::getMaxSwimVelocity()
+{
+	return maxSwimVelocity;
+}
+
 int hand::getHeight(){
 	return height;
 }
