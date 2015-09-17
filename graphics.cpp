@@ -151,14 +151,23 @@ void frameRender(player *Player, ball *Ball)
 	SDL_RenderPresent(gRenderer);
 }
 
-void closeObjectTextures()
+void closeObjectTextures(player *Player, ball *Ball)
 {
+	//backTexture.free();
     Player[ USER ].getTexture()->free();
     Player[ COMPUTER ].getTexture()->free();
-    Goal[ USER ].getTexture()->free();
-    Goal[ COMPUTER ].getTexture()->free();
-    Ball.getTexture()->free();
-    Water.getTexture()->free();
+    goalLocal[ USER ].getTexture()->free();
+    goalLocal[ COMPUTER ].getTexture()->free();
+    Ball->getTexture()->free();
+    waterLocal->getTexture()->free();
+    SDL_DestroyRenderer(gRenderer);
+    SDL_DestroyWindow(mWindow);
+    
+    mWindow = NULL;
+    gRenderer = NULL;
+
+    IMG_Quit();
+    SDL_Quit();
 }
 
 

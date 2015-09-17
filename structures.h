@@ -109,4 +109,5 @@ class goal{
 
 bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water);
 void frameRender(player *Player, ball *Ball);
+void closeObjectTextures(player *Player, ball *Ball);
 #endif
