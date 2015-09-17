@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 bool init();
+bool init_render();
 
 class LTexture
 {
