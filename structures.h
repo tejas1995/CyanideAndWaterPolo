@@ -72,7 +72,9 @@ class player: public entity{
 		hand haath;
 		int radius;
 	public:
+		int getMode();
 		int getRadius();
+		bool setMode(int);
 };
 
 

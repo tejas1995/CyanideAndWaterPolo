@@ -1,10 +1,4 @@
-#ifndef MODEL_H
-#define MODEL_H
-#define PI 3.141592
-
 #include <model.h>
-#include <enums.h>
-
 int checkCollision(player player1, player player2)
 {
 	int x1 = player1.getX(); int x2 = player2.getX();
@@ -13,7 +7,7 @@ int checkCollision(player player1, player player2)
 
 	x1 += r1; y1 += r1; x2 += r2; y2 += r2;
 
-	float distance = sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
+	float distance = sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 
 	if(distance <= (r1+r2)) 
 	{
@@ -31,7 +25,7 @@ int checkCollision(ball ball, player player)
 
 	x1 += r1; y1 += r1; x2 += r2; y2 += r2;
 
-	float distance = sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
+	float distance = sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
 
 	if(distance <= (r1+r2))
 	{
@@ -53,8 +47,8 @@ int checkCollision(ball ball, hand hand)
 	int width = hand.getWidth();
 	int height = hand.getHeight();
 
-	float distance = abs(cosine*(h-x) - sine*(k-y))
-	float pointOfContact = sqrt((h-x)*(h-x) + (k-y)*(k-y) - distance*distance)
+	float distance = fabs(cosine*(h-x) - sine*(k-y));
+	float pointOfContact = sqrt((h-x)*(h-x) + (k-y)*(k-y) - distance*distance);
 
 	if(radius <= (distance - width/2) && pointOfContact < height)
 	{
@@ -84,12 +78,24 @@ int checkCollision(ball ball, SDL_Rect rect)
 	int rLeft = rect.x;
 	int rRight = rect.x + rect.w;
 
-	if(ballTop <= rBottom) return -1;
-	if(ballBottom >= rTop) return -2;
-	if(ballLeft <= rRight) return -3;
-	if(ballRight >= rLeft) return -4;
+	if((ballTop <= rBottom) && (ballLeft-rLeft)*(ballRight-rRight) <= 0) 
+			return -1;
+	if((ballBottom >= rTop) && (ballLeft-rLeft)*(ballRight-rRight)<=0) 
+			return -1;
+	if((ballLeft <= rRight) && (ballBottom-rBottom)*(ballTop-rTop)<=0)
+			return -2;
+	if((ballRight >= rLeft) && (ballBottom-rBottom)*(ballTop-rTop)<=0) 
+			return -2;
 
 	return 0;
 }
 
-#endif
+int updateObjects(int* keystates, player players[], goal goals[], ball* ball, water* water){
+	if (keystates[KEY_SHIFT] == 1){
+
+	if (players[USER].getMode() == WADE)
+	{
+		
+	}
+}
+

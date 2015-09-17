@@ -48,14 +48,17 @@ int entity::getOmega(){
 
 bool entity::setOmega(int o){
 	omega = o;
+	return true;
 }
 
 bool entity::setX(int x1){
 	x = x1;
+	return true;
 }
 
 bool entity::setY(int y2){
 	y = y2;
+	return true;
 }
 
 mVector* entity::getVelocity(){
@@ -76,6 +79,7 @@ bool entity::setVelocity(int a, int b){
 
 bool entity::setAngle(int ang){
 	angle = ang;
+	return true;
 }
 
 LTexture* entity::getTexture(){
@@ -88,6 +92,14 @@ int ball::getRadius(){
 
 int player::getRadius(){
 	return (getTexture()->getWidth())/2;
+}
+
+int player::getMode(){
+	return mode;
+}
+bool player::setMode(int s){
+	mode = s;
+	return true;
 }
 int hand::getHeight(){
 	return height;
@@ -102,4 +114,11 @@ LTexture* water::getTexture(){
 
 LTexture* goal::getTexture(){
 	return &texture;
+}
+bool water::setDepth(int d){
+	depth = d;
+	return true;
+}
+int water::getDepth(){
+	return depth;
 }
