@@ -15,6 +15,8 @@ using namespace std;
 #define GOAL_THICK 10
 #define CROSS_WADE_TIME 16
 #define CROSS_SWIM_TIME 8
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
 
 player Player[2];
 ball Ball;
@@ -78,7 +80,9 @@ bool pollForUserInput()
         if(e.type == SDL_QUIT)
         {
             quit = true;
-        }
+       		break;
+		}	
+
 
         const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
         if( currentKeyStates[ SDL_SCANCODE_W ] )
@@ -150,16 +154,17 @@ void game()
         //if(checkCollision(Ball, Goal[ USER ]))
         
 
-        frameRender(Player, Ball);
+        frameRender(Player, &Ball);
     }
 
-    closeObjectTextures();
+    closeObjectTextures(Player, &Ball);
 
 }
 
-int main()
+int main(int argc, char* args[])
 {
     initialize();
     game();
+
     return 0;
 }

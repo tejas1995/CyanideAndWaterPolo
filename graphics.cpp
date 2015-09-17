@@ -92,6 +92,9 @@ int LTexture::getHeight()
 
 bool init()
 {
+	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0){
+		printf("SDL init error");
+	}
 	mWindow = SDL_CreateWindow("waterpolo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(mWindow == NULL)
 	{
@@ -165,7 +168,6 @@ void closeObjectTextures(player *Player, ball *Ball)
     
     mWindow = NULL;
     gRenderer = NULL;
-
     IMG_Quit();
     SDL_Quit();
 }
@@ -209,7 +211,7 @@ bool loadMedia()
 		return false;
 	}
 	return true;
-}*/
+}
 int main(int argc, char const *argv[])
 {
 	/*int degrees =0;
@@ -263,7 +265,7 @@ int main(int argc, char const *argv[])
 				}
 				//close();
 			}
-		}*/
+		}
 	return 0;	
 	}
-
+*/
