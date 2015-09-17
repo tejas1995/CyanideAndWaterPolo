@@ -89,11 +89,17 @@ int checkCollision(ball ball, SDL_Rect rect)
 
 int updateObjects(int* keystates, player player[], goal goals[], ball* ball, water* water, int pCode){
 	//Get mode
+	entity* eball;
+	entity* eplayer[2];
+	
+	eball = ball;
+	eplayer[0] = &player[0];
+	eplayer[1] = &player[1];
 
-	uvx = player[USER].getVelocity -> getX();
-	uvy = player[USER].getVelocity -> getY();
-	cvx = player[COMPUTER].getVelocity -> getX();
-	cvy = player[COMPUTER].getVelocity -> getY();
+	int uvx = player[USER].getVelocity() -> getX();
+	int uvy = player[USER].getVelocity() -> getY();
+	int cvx = player[COMPUTER].getVelocity() -> getX();
+	int cvy = player[COMPUTER].getVelocity() -> getY();
 
 	if (keystates[KEY_SHIFT] == 1)
 	{
@@ -149,13 +155,13 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 	return 0;
 }
-int collisionReact( player &A, player &B, int m1, int m2, int e){
+int collisionReact( entity* A, entity* B, int m1, int m2, int e){
 	mVector dir;
-	dir.setX(B.getX()-A.getX());
-	dir.setY(B.getY()-A.getY());
+	dir.setX(B->getX()-A->getX());
+	dir.setY(B->getY()-A->getY());
 	int vNormalAf,vNormalAi,vNormalBf,vNormalBi;
-	vNormalAi = A.getVelocity()->dot(dir);
-	vNormalBi = A.getVelocity()->dot(dir);
+	vNormalAi = A->getVelocity()->dot(dir);
+	vNormalBi = A->getVelocity()->dot(dir);
 
 	vNormalBf = (m1*vNormalAi*(1+e) + (m2-m1*e)*vNormalBi) / (m1+m2);
 	vNormalAf = (m2*vNormalBi*(1+e) + (m1-m2*e)*vNormalAi) / (m1+m2);
@@ -164,8 +170,8 @@ int collisionReact( player &A, player &B, int m1, int m2, int e){
 	dirP.setX(dir.getY());
 	dirP.setY(-1*dir.getX());
 
-	int vlaf = A.getVelocity()->dot(dirP);
-	int vlbf = B.getVelocity()->dot(dirP);
+	int vlaf = A->getVelocity()->dot(dirP);
+	int vlbf = B->getVelocity()->dot(dirP);
 
 	int vax = (vNormalAf*(dir.getX()/(dir.getMag()*dir.getMag()))) + vlaf*(dirP.getX()/(dirP.getMag()*dirP.getMag()));
 	int vay = (vNormalAf*(dir.getY()/(dir.getMag()*dir.getMag()))) + vlaf*(dirP.getY()/(dirP.getMag()*dirP.getMag()));
@@ -173,7 +179,7 @@ int collisionReact( player &A, player &B, int m1, int m2, int e){
 	int vbx = (vNormalBf*(dir.getX()/(dir.getMag()*dir.getMag()))) + vlbf*(dirP.getX()/(dirP.getMag()*dirP.getMag()));
 	int vby = (vNormalBf*(dir.getY()/(dir.getMag()*dir.getMag()))) + vlbf*(dirP.getY()/(dirP.getMag()*dirP.getMag()));
 	
-	A.setVelocity(vax,vay);
-	B.setVelocity(vbx,vby);
+	A->setVelocity(vax,vay);
+	B->setVelocity(vbx,vby);
 	return 0;
 }
