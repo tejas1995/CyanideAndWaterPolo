@@ -77,16 +77,15 @@ int checkCollision(ball ball, SDL_Rect rect)
 	int rBottom = rect.y + rect.h;
 	int rLeft = rect.x;
 	int rRight = rect.x + rect.w;
-
-	if((ballTop <= rBottom) && (ballLeft-rLeft)*(ballRight-rRight) <= 0) 
+	if((ballTop <= rBottom) && (ballBottom >= rBottom) && (ballLeft-rLeft)*(ballRight-rRight) <= 0) 
 			return -1;
-	if((ballBottom >= rTop) && (ballLeft-rLeft)*(ballRight-rRight)<=0) 
+	if((ballBottom >= rTop) && (ballTop <= rTop) && (ballLeft-rLeft)*(ballRight-rRight)<=0) 
 			return -1;
-	if((ballLeft <= rRight) && (ballBottom-rBottom)*(ballTop-rTop)<=0)
+	if((ballLeft <= rRight) && (ballRight >= rRight) && (ballBottom-rBottom)*(ballTop-rTop)<=0)
 			return -2;
-	if((ballRight >= rLeft) && (ballBottom-rBottom)*(ballTop-rTop)<=0) 
+	if((ballRight >= rLeft) && (ballLeft <= rLeft) && (ballBottom-rBottom)*(ballTop-rTop)<=0) 
 			return -2;
-
+	
 	return 0;
 }
 
