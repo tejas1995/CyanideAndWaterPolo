@@ -23,6 +23,7 @@ ball Ball;
 goal Goal[2];
 int Score[2];
 water Water;
+Uint32 startTime = 0;
 
 int keyStates[ KEY_TOTAL ];
 
@@ -86,7 +87,6 @@ bool pollForUserInput()
             quit = true;
         }   
 
-
         const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
         if( currentKeyStates[ SDL_SCANCODE_W ] )
         {
@@ -129,6 +129,7 @@ void resetKeyStates()
 
 void game()
 {
+    startTime = SDL_GetTicks();
     bool quit = false;
     bool game_in_play = false;
     
@@ -152,7 +153,7 @@ void game()
             Score[ USER ] += 1;
 
         resetKeyStates();
-
+        setTime(SDL_GetTicks(), startTime);
         frameRender(Player, &Ball);
     }
 

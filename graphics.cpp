@@ -7,7 +7,11 @@ const int SCREEN_HEIGHT = 480;
 
 SDL_Window* mWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
+TTF_Font* gFont = NULL;
+
+std::stringstream timeText;
 LTexture backTexture;
+LTexture textTexture;
 water* waterLocal;
 goal* goalLocal;
 
@@ -63,6 +67,31 @@ bool LTexture::loadFromFile(std::string path)
 	return ((this->mTexture)!=NULL);
 }
 
+bool LTexture::loadFromRenderedText(std::string text, SDL_Color textColor)
+{
+	SDL_Surface* loadedSurface = TTF_RenderText_Solid(gFont, text.c_str(), textColor);
+	if(gFont == NULL)
+	{
+		printf("Failed to load font. SDL Error:%s\n", SDL_GetError());
+	}
+	else
+	{
+		this->mTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+		if(this->mTexture == NULL)
+		{
+			printf("Unable to create texture from rendered text! SDL Error:%s\n", SDL_GetError());
+		}
+		else
+		{
+			this->mWidth = loadedSurface->w;
+			this->mHeight = loadedSurface->h;
+		}
+
+		SDL_FreeSurface(loadedSurface);
+	}
+	return (this->mTexture)!=NULL;
+}
+
 void LTexture::render(int x,int y, double angle, int center_x,int center_y)
 {
 	SDL_Point center = {center_x,center_y};
@@ -78,6 +107,16 @@ void LTexture::render(int x,int y, double angle, int center_x,int center_y)
 		SDL_RenderCopyEx(gRenderer, (this->mTexture), NULL, &renderQuad, angle, &center, SDL_FLIP_NONE);
 	}
 	
+}
+
+void LTexture::setBlendMode(SDL_BlendMode blending)
+{
+	SDL_SetTextureBlendMode(this->mTexture, blending);	
+}
+
+void LTexture::setAlpha(Uint8 Alpha)
+{
+	SDL_SetTextureAlphaMod(this->mTexture, Alpha);
 }
 
 int LTexture::getWidth()
@@ -117,6 +156,11 @@ bool init()
 				printf("SDL_image could not be initialized! SDL Error:%s\n", SDL_GetError());
 				return false;
 			}
+			if(TTF_Init() == -1)
+			{
+				printf("SDL_ttf could not be initialized! SDL Error:%s\n", SDL_GetError());
+				return false;
+			}
 		}
 	}
 	return true;
@@ -124,34 +168,65 @@ bool init()
 
 bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
 {
-	if   
-    (!(Player[ USER ].getTexture()->loadFromFile("img/player.png")&&
-        Player[ COMPUTER ].getTexture()->loadFromFile("img/player.png")&&
-        Goal[ USER ].getTexture()->loadFromFile("img/goal.png")&&
-        Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal.png")&&
-        Ball->getTexture()->loadFromFile("img/ball.png")&&
-        Water->getTexture()->loadFromFile("img/water.png")
-        //&& backTexture.loadFromFile("img/background.png")
-        ))
+	gFont = TTF_OpenFont("img/gone.ttf", 28);
+	if(gFont == NULL)
+	{
+		printf("Could not open font.\n");
 		return false;
-		goalLocal = Goal;
-		waterLocal = Water;
-        frameRender(Player, Ball);
-        return true;
+	}
+	else
+	{
+		SDL_Color textColor = {0,0,0};
+		timeText.str(" ");
+		if(!textTexture.loadFromRenderedText(timeText.str().c_str(), textColor))
+		{
+			printf("Could not render from Text.\n");
+			return false;
+		}
+		else
+		{
+			if   
+   				(!(Player[ USER ].getTexture()->loadFromFile("img/player.png")&&
+        		Player[ COMPUTER ].getTexture()->loadFromFile("img/player.png")&&
+        		Goal[ USER ].getTexture()->loadFromFile("img/goal.png")&&
+        		Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal.png")&&
+        		Ball->getTexture()->loadFromFile("img/ball.png")&&
+        		Water->getTexture()->loadFromFile("img/water.png")
+        		//&& backTexture.loadFromFile("img/background.png")
+        		))
+			return false;	
+		}
+	}
+	
+	goalLocal = Goal;
+	waterLocal = Water;
+    frameRender(Player, Ball);
+    return true;
 }
 
 void frameRender(player *Player, ball *Ball)
 {
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
-	//backTexture.loadFromFile("img/background.png")
-	waterLocal->getTexture()->render(0,0);
+	//backTexture.render(0,0);
+	textTexture.render((SCREEN_WIDTH - textTexture.getWidth())/2,0);
+	waterLocal->getTexture()->render(0, waterLocal->getDepth());
 	Player[USER].getTexture()->render(Player[USER].getX(), Player[USER].getY(), Player[USER].getAngle());
 	Player[COMPUTER].getTexture()->render(Player[COMPUTER].getX(), Player[COMPUTER].getY(), Player[COMPUTER].getAngle());
 	goalLocal[USER].getTexture()->render(goalLocal[USER].getX(),goalLocal[USER].getY());
 	goalLocal[COMPUTER].getTexture()->render(goalLocal[COMPUTER].getX(),goalLocal[COMPUTER].getY());
 	Ball->getTexture()->render(Ball->getX(),Ball->getY());
 	SDL_RenderPresent(gRenderer);
+}
+
+void setTime(unsigned int currTime, unsigned int startTime)
+{
+	SDL_Color textColor = {0,0,0};
+	unsigned int durationSecs = 120-((currTime - startTime)/1000);
+	unsigned int durationMins = durationSecs/60;
+	timeText.str("00:00");
+	timeText<< std::setfill('0')<< std::setw(2) << durationMins<<":"<<std::setfill('0')<< std::setw(2)<< durationSecs%60;
+	textTexture.loadFromRenderedText(timeText.str().c_str(), textColor);
 }
 
 void closeObjectTextures(player *Player, ball *Ball)
@@ -163,9 +238,13 @@ void closeObjectTextures(player *Player, ball *Ball)
     goalLocal[ COMPUTER ].getTexture()->free();
     Ball->getTexture()->free();
     waterLocal->getTexture()->free();
+    textTexture.free();
+
+    TTF_CloseFont(gFont);
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(mWindow);
     
+    gFont = NULL;
     mWindow = NULL;
     gRenderer = NULL;
     IMG_Quit();
@@ -200,18 +279,6 @@ void close()
 	SDL_Quit();
 }
 
-bool loadMedia()
-{
-	if(!(face.loadFromFile("img/obama_2.png")))
-	{
-		return false;
-	}
-	else if(!(bground.loadFromFile("img/bground.png")))
-	{
-		return false;
-	}
-	return true;
-}
 int main(int argc, char const *argv[])
 {
 	/*int degrees =0;
