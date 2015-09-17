@@ -107,6 +107,9 @@ class goal{
 		bool defineTopNet(int, int, int, int);
 		bool defineBackNet(int, int, int, int);
 		bool defineBlankSpace(int, int, int, int);
+		SDL_Rect getBackNet();
+		SDL_Rect getTopNet();
+		SDL_Rect getBlankSpace();
 
 };
 

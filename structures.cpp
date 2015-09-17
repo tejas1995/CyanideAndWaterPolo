@@ -171,3 +171,18 @@ bool goal::defineBlankSpace(int start_x, int start_y, int w, int h)
 	blankSpace.h = h;
 	return true;
 }
+
+SDL_Rect goal::getBackNet()
+{
+	return backNet;
+}
+
+SDL_Rect goal::getTopNet()
+{
+	return topNet;
+}
+
+SDL_Rect goal::getBlankSpace()
+{
+	return blankSpace;
+}
