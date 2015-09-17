@@ -11,7 +11,7 @@ int checkCollision(player player1, player player2)
 
 	if(distance <= (r1+r2)) 
 	{
-		int angle = acos((float)abs(y2-y1)/(float)distance);
+		int angle = acos((float)abs(y2-y1)/(float)distance)*180/PI;
 		return angle*(-1);
 	}
 	return 0;
@@ -29,7 +29,7 @@ int checkCollision(ball ball, player player)
 
 	if(distance <= (r1+r2))
 	{
-		int angle = acos((float)abs(y2-y1)/(float)distance);
+		int angle = acos((float)abs(y2-y1)/(float)distance)*180/PI;
 		return angle*(-1);
 	}
 	return 0;
@@ -56,10 +56,10 @@ int checkCollision(ball ball, hand hand)
 	}
 
 	int xTip = x - height*sine; int yTip = y - height*cosine;
-//Khujao to fix
-	if(sqrt((h-xTip)*(h-xTip) + (k-yTip)*(k-yTip)) <= radius)
+	float distance = sqrt((h-xTip)*(h-xTip) + (k-yTip)*(k-yTip);
+	if(distance <= radius)
 	{
-		int angle = acos((float)abs(yTip-k)/(float)distance);
+		int angle = acos((float)abs(yTip-k)/distance)*180/PI;
 		return angle*(-1);
 	}
 
