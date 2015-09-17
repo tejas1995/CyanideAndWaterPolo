@@ -24,8 +24,8 @@ int mVector::getMag(){
 ball::ball(){
 	setX(0);
 	setY(0);
-	getVelocity.setX(0);
-	getVelocity.setY(0);
+	getVelocity()->setX(0);
+	getVelocity()->setY(0);
 }
 
 ball::~ball(){
@@ -37,6 +37,9 @@ int entity::getX(){
 
 int entity::getY(){
 	return y;
+}
+int entity::getAngle(){
+	return angle;
 }
 
 int entity::getOmega(){
@@ -55,13 +58,13 @@ bool entity::setY(int y2){
 	y = y2;
 }
 
-mVector entity::getVelocity(){
-	return velocity;
+mVector* entity::getVelocity(){
+	return &velocity;
 }
 
 bool entity::setVelocity(mVector mV){
-	velocity.setX(mVector.getX());
-	velocity.setY(mVector.getY());
+	velocity.setX(mV.getX());
+	velocity.setY(mV.getY());
 	return true;
 }
 
@@ -71,16 +74,20 @@ bool entity::setVelocity(int a, int b){
 	return true;
 }
 
-LTexture entity::getTexture(){
+bool entity::setAngle(int ang){
+	angle = ang;
+}
+
+LTexture* entity::getTexture(){
 	return &texture;
 }
 
 int ball::getRadius(){
-	return (texture.getWidth())/2;
+	return (getTexture()->getWidth())/2;
 }
 
 int player::getRadius(){
-	return (texture.getWidth())/2;
+	return (getTexture()->getWidth())/2;
 }
 int hand::getHeight(){
 	return height;
