@@ -130,7 +130,7 @@ void game()
     bool game_in_play = false;
     
     init();
-    initRender(Player, Goal, &Ball, &Water);
+    //init_render(Player, Goal, &Ball, &Water);
 
     while(!quit)
     {

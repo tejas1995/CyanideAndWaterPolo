@@ -1,5 +1,6 @@
 #include "graphics.h"
 #include "structures.h"
+#include "enums.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -122,8 +123,8 @@ void loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
     Player[ COMPUTER ].getTexture()->loadFromFile("player_1.png");
     Goal[ USER ].getTexture()->loadFromFile("goal_0.png");
     Goal[ COMPUTER ].getTexture()->loadFromFile("goal_1.png");
-    Ball.getTexture()->loadFromFile("ball.png");
-    Water.getTexture()->loadFromFile("water.png");
+    Ball->getTexture()->loadFromFile("ball.png");
+    Water->getTexture()->loadFromFile("water.png");
     
 }
 
