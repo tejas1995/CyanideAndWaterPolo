@@ -56,10 +56,10 @@ int checkCollision(ball ball, hand hand)
 	}
 
 	int xTip = x - height*sine; int yTip = y - height*cosine;
-	float distance = sqrt((h-xTip)*(h-xTip) + (k-yTip)*(k-yTip);
-	if(distance <= radius)
+	float distance2 = sqrt((h-xTip)*(h-xTip) + (k-yTip)*(k-yTip));
+	if(distance2 <= radius)
 	{
-		int angle = acos((float)abs(yTip-k)/distance)*180/PI;
+		int angle = acos((float)abs(yTip-k)/distance2)*180/PI;
 		return angle*(-1);
 	}
 
