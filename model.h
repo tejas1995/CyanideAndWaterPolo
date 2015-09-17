@@ -3,14 +3,13 @@
 
 #define PI 3.141592
 
-#include <model.h>
-#include <enums.h>
+#include "enums.h"
 #include <stdio.h>
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <math.h>
-#include <structures.h>
+#include "structures.h"
 using namespace std;
 
 int updateObjects(int* keystates, player* players, goal* goals, ball* ball, water* water);																										

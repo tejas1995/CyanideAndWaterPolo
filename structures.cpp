@@ -122,7 +122,7 @@ bool water::setDepth(int d){
 }
 int water::getDepth(){
 	return depth;
-
+}
 bool goal::setX(int x1)
 {
 	x = x1;
@@ -135,12 +135,12 @@ bool goal::setY(int y1)
 	return true;
 }
 
-bool goal::getX()
+int goal::getX()
 {
 	return x;
 }
 
-bool goal::getY()
+int goal::getY()
 {
 	return y;
 }
@@ -151,6 +151,7 @@ bool goal::defineTopNet(int start_x, int start_y, int w, int h)
 	topNet.y = start_y;
 	topNet.w = w;
 	topNet.h = h;
+	return true;
 }
 
 bool goal::defineBackNet(int start_x, int start_y, int w, int h)
@@ -159,6 +160,7 @@ bool goal::defineBackNet(int start_x, int start_y, int w, int h)
 	backNet.y = start_y;
 	backNet.w = w;
 	backNet.h = h;
+	return true;
 }
 
 bool goal::defineBlankSpace(int start_x, int start_y, int w, int h)
@@ -167,4 +169,5 @@ bool goal::defineBlankSpace(int start_x, int start_y, int w, int h)
 	blankSpace.y = start_y;
 	blankSpace.w = w;
 	blankSpace.h = h;
+	return true;
 }
