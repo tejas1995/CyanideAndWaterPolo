@@ -1,8 +1,6 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-enum mode{ NONE, WADE, SWIM, HIT }
-
 class mVector{
 	private:
 		int x;
