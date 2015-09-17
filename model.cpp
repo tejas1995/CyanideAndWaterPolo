@@ -1,4 +1,8 @@
 #include "model.h"
+#define KEY_PRESS_ACCELERATION_WADE 10
+#define KEY_PRESS_ACCELERATION_SWIM 10
+#define GRAVITY_ACCELERATION 10
+
 int checkCollision(player player1, player player2)
 {
 	int x1 = player1.getX(); int x2 = player2.getX();
@@ -113,10 +117,22 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 				uvx -= KEY_PRESS_ACCELERATION_WADE;
 		}
 
+		else
+		{
+			if(uvx < 0)
+				uvx += KEY_PRESS_ACCELERATION_WADE;
+		}
+
 		if (keystates[KEY_D] == 1)
 		{
 			if(uvx < player[pCode].getMaxWadeVelocity())
 				uvx += KEY_PRESS_ACCELERATION_WADE;
+		}
+
+		else
+		{
+			if(uvx > 0)
+				uvx -= KEY_PRESS_ACCELERATION_WADE;
 		}
 
 		if (keystates[KEY_W] == 1)
@@ -135,11 +151,24 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 				uvx -= KEY_PRESS_ACCELERATION_SWIM;
 		}
 
+		else
+		{
+			if(uvx < 0)
+				uvx += KEY_PRESS_ACCELERATION_SWIM;
+		}
+
 		if (keystates[KEY_D] == 1)
 		{
 			if(uvx < player[pCode].getMaxSwimVelocity())
 				uvx += KEY_PRESS_ACCELERATION_SWIM;
 		}
+
+		else
+		{
+			if(uvx < 0)
+				uvx += KEY_PRESS_ACCELERATION_SWIM;
+		}
+
 		if (keystates[KEY_S] == 1)
 		{
 			if(uvy < player[pCode].getMaxSwimVelocity())
@@ -149,7 +178,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 	return 0;
 }
-int collisionReact( player &A, player &B, int m1, int m2, int e){
+int collisionReact( entity &A, entity &B, int m1, int m2, int e){
 	mVector dir;
 	dir.setX(B.getX()-A.getX());
 	dir.setY(B.getY()-A.getY());
