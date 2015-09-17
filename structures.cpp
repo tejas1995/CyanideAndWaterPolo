@@ -20,7 +20,9 @@ int mVector::getSlope(){
 int mVector::getMag(){
 	return sqrt(y*y + x*x);
 }
-
+int mVector::dot(mVector a){
+	return getX()*(a.getX()) + getY()*(a.getY());
+}
 ball::ball(){
 	setX(0);
 	setY(0);

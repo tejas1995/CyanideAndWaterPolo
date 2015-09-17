@@ -20,6 +20,7 @@ class mVector{
 		bool setY(int);
 		int getSlope();
 		int getMag();
+		int dot(mVector);
 };
 
 class entity{
