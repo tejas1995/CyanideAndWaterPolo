@@ -19,4 +19,11 @@ enum KeyCodes
     KEY_TOTAL
 };
 
+enum Mode
+{   NONE,
+    WADE,
+    SWIM,
+    HIT
+};
+
 #endif

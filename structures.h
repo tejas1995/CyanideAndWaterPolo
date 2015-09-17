@@ -3,8 +3,6 @@
 #include "graphics.h"
 #include "math.h"
 
-enum mode{ NONE, WADE, SWIM, HIT }
-
 class mVector{
 	private:
 
