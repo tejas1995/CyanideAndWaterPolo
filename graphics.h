@@ -1,3 +1,6 @@
+#ifndef graphics_h
+#define graphics_h
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
@@ -8,6 +11,17 @@ const int SCREEN_HEIGHT = 480;
 
 SDL_Window* mWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
+
+bool init();
+
+enum{
+	BACKGROUND_TEXTURE,
+	WATER_TEXTURE,
+	GOAL_TEXTURE,
+	PLAYER_TEXTURE,
+	BALL_TEXTURE,
+	TOTAL_TEXTURES
+};
 
 class LTexture
 {
@@ -38,4 +52,4 @@ private:
 	int mWidth;
 	int mHeight;
 };
-
+#endif

@@ -96,6 +96,10 @@ bool init()
 	}
 }
 
+bool loadMedia()
+{
+		
+}
 
 int main(int argc, char const *argv[])
 {
