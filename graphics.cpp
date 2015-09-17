@@ -148,8 +148,8 @@ void frameRender(player *Player, ball *Ball)
 	waterLocal->getTexture()->render(0,0);
 	Player[USER].getTexture()->render(Player[USER].getX(), Player[USER].getY(), Player[USER].getAngle());
 	Player[COMPUTER].getTexture()->render(Player[COMPUTER].getX(), Player[COMPUTER].getY(), Player[COMPUTER].getAngle());
-	goalLocal[USER].getTexture()->render(goalLocal[USER].getX(), goalLocal[COMPUTER].getY());
-	goalLocal[COMPUTER].getTexture()->render(20,340);
+	goalLocal[USER].getTexture()->render(goalLocal[USER].getX(),goalLocal[USER].getY());
+	goalLocal[COMPUTER].getTexture()->render(goalLocal[COMPUTER].getX(),goalLocal[COMPUTER].getY());
 	Ball->getTexture()->render(Ball->getX(),Ball->getY());
 	SDL_RenderPresent(gRenderer);
 }

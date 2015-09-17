@@ -41,8 +41,8 @@ void initialize()
     Player[ COMPUTER ].getVelocity()->setY(0);
     
     //Initialize the Ball object
-    Ball.setX(320);
-    Ball.setY(640);
+    Ball.setX(306);
+    Ball.setY(160);
     Ball.getVelocity()->setX(0);
     Ball.getVelocity()->setY(0);
 
@@ -54,7 +54,7 @@ void initialize()
     Goal[ USER ].defineBlankSpace( Goal[ USER ].getX(), Goal[ USER ].getY() - GOAL_THICK, GOAL_WIDTH - GOAL_THICK, GOAL_HEIGHT - GOAL_THICK);
 
     //Initialize the computer goal
-    Goal[ COMPUTER ].setX(80);
+    Goal[ COMPUTER ].setX(0);
     Goal[ COMPUTER ].setY(160);
     Goal[ USER ].defineTopNet( Goal[ USER ].getX(), Goal[ USER ].getY(), GOAL_WIDTH, GOAL_THICK );
     Goal[ USER ].defineBackNet( Goal[USER].getX(), Goal[ USER ].getY(), GOAL_THICK, GOAL_HEIGHT );
@@ -84,8 +84,8 @@ bool pollForUserInput()
         if(e.type == SDL_QUIT)
         {
             quit = true;
-       		break;
-		}	
+            printf("Quit pressed 1\n");
+        }   
 
 
         const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
@@ -119,7 +119,7 @@ bool pollForUserInput()
         }
     }
 
-    return !quit;
+    return quit;
 }
 
 void resetKeyStates()
@@ -138,10 +138,10 @@ void game()
 
     while(!quit)
     {
-        if(pollForUserInput() == false) //false return corresponds to game being quit
+        if(pollForUserInput() == true) //false return corresponds to game being quit
         {
             quit = true;
-            break;
+            printf("Quit pressed 2\n");
         }
         for(int i = 0; i < KEY_TOTAL; i++)
             if(keyStates[i] == 1)
