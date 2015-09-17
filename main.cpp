@@ -21,6 +21,7 @@ using namespace std;
 player Player[2];
 ball Ball;
 goal Goal[2];
+int Score[2];
 water Water;
 
 int keyStates[ KEY_TOTAL ];
@@ -61,6 +62,9 @@ void initialize()
 
     //Initializethe water object
     Water.setDepth(WATER_DEPTH);
+
+    Score[ USER ] = 0;
+    Score[ COMPUTER ] = 0;
 
     while(!init())
     {
@@ -148,17 +152,19 @@ void game()
         resetKeyStates();
         
         //Send keyStates to the physics model
-        updateObjects(keyStates, Player, Goal, &Ball, &Water);
+        //updateObjects(keyStates, Player, Goal, &Ball, &Water);
 
-        //Check for score updation
-        //if(checkCollision(Ball, Goal[ USER ]))
-        
+        //Check for Score updation
+        /*if(checkCollision(Ball, Goal[ USER ].blankSpace) != 0)
+            Score[ COMPUTER ] += 1;
+        else if(checkCollision(Ball, Goal[ COMPUTER ].blankSpace) != 0)
+            Score[ GOAL ] += 1;
+        */
 
         frameRender(Player, &Ball);
     }
 
     closeObjectTextures(Player, &Ball);
-
 }
 
 int main(int argc, char* args[])
