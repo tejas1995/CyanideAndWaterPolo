@@ -11,8 +11,7 @@ int checkCollision(player player1, player player2)
 
 	if(distance <= (r1+r2)) 
 	{
-		int angle = acos((float)abs(y2-y1)/(float)distance)*180/PI;
-		return angle*(-1);
+		return 1;
 	}
 	return 0;
 }
@@ -29,8 +28,7 @@ int checkCollision(ball ball, player player)
 
 	if(distance <= (r1+r2))
 	{
-		int angle = acos((float)abs(y2-y1)/(float)distance)*180/PI;
-		return angle*(-1);
+		return 1;
 	}
 	return 0;
 }
@@ -90,16 +88,66 @@ int checkCollision(ball ball, SDL_Rect rect)
 	return 0;
 }
 
-int updateObjects(int* keystates, player player[], goal goals[], ball* ball, water* water){
+int updateObjects(int* keystates, player player[], goal goals[], ball* ball, water* water, int pCode){
 	//Get mode
-	if (keystates[KEY_SHIFT] == 1){
-		player[USER].setMode(SWIM);
+
+	uvx = player[USER].getVelocity -> getX();
+	uvy = player[USER].getVelocity -> getY();
+	cvx = player[COMPUTER].getVelocity -> getX();
+	cvy = player[COMPUTER].getVelocity -> getY();
+
+	if (keystates[KEY_SHIFT] == 1)
+	{
+		player[pCode].setMode(SWIM);
+	}
+
+	else
+	{
+		player[pCode].setMode(WADE);
 	}
 	//Now we know the mode
-	if (player[USER].getMode() == WADE)
+	if(player[pCode].getMode() == WADE)
 	{
-		
+		if (keystates[KEY_A] == 1)
+		{
+			if(-uvx < player[pCode].getMaxWadeVelocity())
+				uvx -= KEY_PRESS_ACCELERATION_WADE;
+		}
+
+		if (keystates[KEY_D] == 1)
+		{
+			if(uvx < player[pCode].getMaxWadeVelocity())
+				uvx += KEY_PRESS_ACCELERATION_WADE;
+		}
+
+		if (keystates[KEY_W] == 1)
+		{
+			if(player[pCode].getY() == BASE_HEIGHT)
+				uvy = player[pCode].getMaxJumpVelocity();
+			else
+				uvy += GRAVITY_ACCELERATION
+		}
 	}
+	else if(player[pCode].getMode() == SWIM)
+	{
+		if (keystates[KEY_A] == 1)
+		{
+			if(-uvx < player[pCode].getMaxSwimVelocity())
+				uvx -= KEY_PRESS_ACCELERATION_SWIM;
+		}
+
+		if (keystates[KEY_D] == 1)
+		{
+			if(uvx < player[pCode].getMaxSwimVelocity())
+				uvx += KEY_PRESS_ACCELERATION_SWIM;
+		}
+		if (keystates[KEY_S] == 1)
+		{
+			if(uvy < player[pCode].getMaxSwimVelocity())
+				uvy += KEY_PRESS_ACCELERATION_SWIM;
+		}
+	}
+
 	return 0;
 }
 
