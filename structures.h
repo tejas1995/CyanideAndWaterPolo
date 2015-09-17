@@ -1,5 +1,8 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "graphics.h"
 #include "math.h"
 
@@ -87,9 +90,19 @@ class water{
 
 class goal{
 	private:
+		int x, y;
+		SDL_Rect backNet, topNet, blankSpace;
 		LTexture texture;
 	public:
 		LTexture* getTexture();
+		bool setX(int);
+		bool setY(int);
+		int getX(int);
+		int getY(int);
+		bool defineTopNet(int, int, int, int);
+		bool defineBackNet(int, int, int, int);
+		bool defineBlankSpace(int, int, int, int);
+
 };
 
 
