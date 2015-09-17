@@ -5,8 +5,11 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-extern SDL_Window* mWindow = NULL;
-extern SDL_Renderer* gRenderer = NULL;
+SDL_Window* mWindow = NULL;
+SDL_Renderer* gRenderer = NULL;
+LTexture backTexture;
+water* waterLocal;
+goal* goalLocal;
 
 LTexture::LTexture()
 {
@@ -116,17 +119,43 @@ bool init()
 	return true;
 }
 
-void loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
+bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
 {
-    
-    Player[ USER ].getTexture()->loadFromFile("player_0.png");
-    Player[ COMPUTER ].getTexture()->loadFromFile("player_1.png");
-    Goal[ USER ].getTexture()->loadFromFile("goal_0.png");
-    Goal[ COMPUTER ].getTexture()->loadFromFile("goal_1.png");
-    Ball->getTexture()->loadFromFile("ball.png");
-    Water->getTexture()->loadFromFile("water.png");
-    
+	if   
+    (!(Player[ USER ].getTexture()->loadFromFile("img/player.png")&&
+        Player[ COMPUTER ].getTexture()->loadFromFile("img/player.png")&&
+        Goal[ USER ].getTexture()->loadFromFile("img/goal.png")&&
+        Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal.png")&&
+        Ball->getTexture()->loadFromFile("img/ball.png")&&
+        Water->getTexture()->loadFromFile("img/water.png")
+        //&& backTexture.loadFromFile("img/background.png")
+        ))
+		return false;
+		goalLocal = Goal;
+		waterLocal = Water;
+        frameRender(Player, Ball);
+        return true;
 }
+
+void frameRender(player *Player, ball *Ball)
+{
+	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(gRenderer);
+	//backTexture.loadFromFile("img/background.png")
+	waterLocal->getTexture()->render(0,0);
+	Player[USER].getTexture()->render(Player[USER].getX(), Player[USER].getY(), Player[USER].getAngle());
+	Player[COMPUTER].getTexture()->render(Player[COMPUTER].getX(), Player[COMPUTER].getY(), Player[COMPUTER].getAngle());
+	goalLocal[USER].getTexture()->render(580,320);
+	goalLocal[COMPUTER].getTexture()->render(20,340);
+	Ball->getTexture()->render(Ball->getX(),Ball->getY());
+	SDL_RenderPresent(gRenderer);
+}
+
+
+
+
+
+
 
 
 
@@ -162,17 +191,22 @@ bool loadMedia()
 		return false;
 	}
 	return true;
-}
+}*/
 int main(int argc, char const *argv[])
 {
-	int degrees =0;
+	/*int degrees =0;
+	player Players[2];
+	ball Ball;
+	goal Goal[2];
+	water Water;
+
 	if(!init())
 	{
 		printf("Error1.\n");
 	}
 		else
 		{
-			if(!loadMedia())
+			if(!loadMedia(Players, Goal, &Ball, &Water))
 			{
 				printf("Error2.\n");
 			}
@@ -180,10 +214,6 @@ int main(int argc, char const *argv[])
 			{
 				bool quit = false;
 				SDL_Event e;
-				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-				SDL_RenderClear(gRenderer);
-				bground.render(0,0,0,0,0);	
-				face.render(0,0,degrees);
 				SDL_RenderPresent(gRenderer);
 				while(!quit)
 				{
@@ -193,7 +223,7 @@ int main(int argc, char const *argv[])
 						{
 							quit = true;
 						}
-						else if(e.type == SDL_KEYDOWN)
+						/*else if(e.type == SDL_KEYDOWN)
 						{
 							SDL_RenderClear(gRenderer);
 							switch(e.key.keysym.sym)
@@ -213,9 +243,9 @@ int main(int argc, char const *argv[])
 					}
 									
 				}
-				close();
+				//close();
 			}
-		}
+		}*/
 	return 0;	
-	}*/
+	}
 

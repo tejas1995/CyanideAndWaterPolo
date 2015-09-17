@@ -94,5 +94,6 @@ class goal{
 		LTexture* getTexture();
 };
 
-
+bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water);
+void frameRender(player *Player, ball *Ball);
 #endif
