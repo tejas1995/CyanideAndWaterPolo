@@ -34,10 +34,12 @@ class entity{
 		int getX();
 		int getY();
 		int getOmega();
+		int getAngle();
+		bool setAngle(int);
 		bool setOmega(int);
 		bool setX(int);
 		bool setY(int);
-		mVector getVelocity();
+		mVector* getVelocity();
 		bool setVelocity(mVector);
 		bool setVelocity(int,int);
 };
@@ -52,6 +54,15 @@ class ball: public entity{
 		~ball();
 };
 
+class hand: public entity{
+	private:
+		int wastedMemoryYay;
+		int width;
+		int height;
+	public:
+		int getWidth();
+		int getHeight();
+};
 class player: public entity{
 	private:
 		int maxJumpHeight;
@@ -64,29 +75,21 @@ class player: public entity{
 		int getRadius();
 };
 
-class hand: public entity{
-	private:
-		int wastedMemoryYay;
-		int width;
-		int height;
-	public:
-		int getWidth();
-		int getheight();
 
-};
+
 
 class water{
 	private:
 		LTexture texture;
 	public:
-		Ltexture* getTexture();
+		LTexture* getTexture();
 };
 
 class goal{
 	private:
 		LTexture texture;
 	public:
-		Ltexture* getTexture();
+		LTexture* getTexture();
 };
 
 
