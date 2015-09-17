@@ -8,6 +8,7 @@ using namespace std;
 #include "graphics.h"
 #include "model.h"
 #include "enums.h"
+#include "ai.h"
 
 #define WATER_DEPTH 320
 #define GOAL_WIDTH 80
@@ -25,7 +26,8 @@ int Score[2];
 water Water;
 Uint32 startTime = 0;
 
-int keyStates[ KEY_TOTAL ];
+int userKeyStates[ KEY_TOTAL ];
+int compKeyStates[ KEY_TOTAL ];
 
 void initialize()
 {
@@ -73,7 +75,10 @@ void initialize()
     }
 
     for(int i = 0; i < KEY_TOTAL; i++)
-        keyStates[i] = 0;
+    {
+        userKeyStates[i] = 0;
+        compKeyStates[i] = 0;
+    }
 }
 
 bool pollForUserInput()
@@ -90,31 +95,31 @@ bool pollForUserInput()
         const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
         if( currentKeyStates[ SDL_SCANCODE_W ] )
         {
-            keyStates[ KEY_W ] = 1;
+            userKeyStates[ KEY_W ] = 1;
         }
         else if( currentKeyStates[ SDL_SCANCODE_A ] )
         {
-            keyStates[ KEY_A ] = 1;
+            userKeyStates[ KEY_A ] = 1;
         }
         else if( currentKeyStates[ SDL_SCANCODE_S ] )
         {
-            keyStates[ KEY_S ] = 1;
+            userKeyStates[ KEY_S ] = 1;
         }
         else if( currentKeyStates[ SDL_SCANCODE_D ] )
         {
-            keyStates[ KEY_D ] = 1;
+            userKeyStates[ KEY_D ] = 1;
         }
         else if( currentKeyStates[ SDL_SCANCODE_LSHIFT ] || currentKeyStates[ SDL_SCANCODE_RSHIFT ])
         {
-            keyStates[ KEY_SHIFT ] = 1;
+            userKeyStates[ KEY_SHIFT ] = 1;
         }
         else if( currentKeyStates[ SDL_SCANCODE_K ] )
         {
-            keyStates[ KEY_K ] = 1;
+            userKeyStates[ KEY_K ] = 1;
         }
         else if( currentKeyStates[ SDL_SCANCODE_L ] )
         {
-            keyStates[ KEY_L ] = 1;
+            userKeyStates[ KEY_L ] = 1;
         }
     }
 
@@ -124,7 +129,10 @@ bool pollForUserInput()
 void resetKeyStates()
 {
     for(int i = 0; i < KEY_TOTAL; i++)
-        keyStates[i] = 0;
+    {
+        userKeyStates[i] = 0;
+        compKeyStates[i] = 0;
+    }
 }
 
 void game()
@@ -143,14 +151,18 @@ void game()
             quit = true;
         }
         
-        //Send keyStates to the physics model
-        updateObjects(keyStates, Player, Goal, &Ball, &Water, USER);
+        //Send userKeyStates to the physics model
+        updateObjects(userKeyStates, Player, Goal, &Ball, &Water, USER);
 
         //Check for Score updation
         if(checkCollision(Ball, Goal[ USER ].getBlankSpace()) != 0)
             Score[ COMPUTER ] += 1;
         else if(checkCollision(Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
             Score[ USER ] += 1;
+
+        //Get compKeyStates and send to the physics model
+        compKeyStates = getCompKeyStates(Player, Goal, Ball);
+        updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
 
         resetKeyStates();
         setTime(SDL_GetTicks(), startTime);

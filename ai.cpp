@@ -105,4 +105,6 @@ int* getCompKeyStates(player* Player, goal* Goal, ball Ball)
             
         }
     }
+
+    return compKeyStates;
 }
