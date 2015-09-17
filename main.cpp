@@ -23,6 +23,7 @@ ball Ball;
 goal Goal[2];
 int Score[2];
 water Water;
+Uint32 startTime = 0;
 
 int keyStates[ KEY_TOTAL ];
 
@@ -87,7 +88,6 @@ bool pollForUserInput()
        		break;
 		}	
 
-
         const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
         if( currentKeyStates[ SDL_SCANCODE_W ] )
         {
@@ -130,6 +130,7 @@ void resetKeyStates()
 
 void game()
 {
+    startTime = SDL_GetTicks();
     bool quit = false;
     bool game_in_play = false;
     
@@ -160,7 +161,7 @@ void game()
         else if(checkCollision(Ball, Goal[ COMPUTER ].blankSpace) != 0)
             Score[ GOAL ] += 1;
         */
-
+        setTime(SDL_GetTicks(), startTime);
         frameRender(Player, &Ball);
     }
 

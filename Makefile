@@ -1,12 +1,12 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = graphics.cpp structures.cpp
+OBJS = graphics.cpp structures.cpp main.cpp model.cpp
 
 #CC specifies which compiler we're using 
 CC = g++ 
 
 COMPILER_FLAGS = -w
 
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 #OBJ_NAME specifies the name of our exectuable 
 OBJ_NAME = graphics 
