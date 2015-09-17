@@ -114,7 +114,17 @@ bool init()
 	return true;
 }
 
-
+void loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
+{
+    
+    Player[ USER ].getTexture()->loadFromFile("player_0.png");
+    Player[ COMPUTER ].getTexture()->loadFromFile("player_1.png");
+    Goal[ USER ].getTexture()->loadFromFile("goal_0.png");
+    Goal[ COMPUTER ].getTexture()->loadFromFile("goal_1.png");
+    Ball.getTexture()->loadFromFile("ball.png");
+    Water.getTexture()->loadFromFile("water.png");
+    
+}
 
 
 
@@ -150,10 +160,10 @@ bool loadMedia()
 		return false;
 	}
 	return true;
-}*/
+}
 int main(int argc, char const *argv[])
 {
-	/*int degrees =0;
+	int degrees =0;
 	if(!init())
 	{
 		printf("Error1.\n");
@@ -203,6 +213,7 @@ int main(int argc, char const *argv[])
 				}
 				close();
 			}
-		}*/
+		}
 	return 0;	
-	}
+	}*/
+
