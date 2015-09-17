@@ -1,27 +1,38 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
+#include "graphics.h"
+#include "math.h"
 
 enum mode{ NONE, WADE, SWIM, HIT }
 
 class mVector{
 	private:
+
 		int x;
 		int y;
+		
 	public:
+		
 		int getX();
 		int getY();
 		bool setX(int);
 		bool setY(int);
 		int getSlope();
-		int getMagSq();
+		int getMag();
 };
-class ball{
+
+class entity{
 	private:
+
 		int x, y;
+		int omega;
+		int angle;
 		mVector velocity;
+		LTexture texture;
+
 	public:
-		ball();
-		~ball();
+		
+		LTexture* getTexture();
 		int getX();
 		int getY();
 		int getOmega();
@@ -33,37 +44,52 @@ class ball{
 		bool setVelocity(int,int);
 };
 
-class player{
+class ball: public entity{
 	private:
-		int x, y;
+		int radius;
+		
+	public:
+		ball();
+		int getRadius();
+		~ball();
+};
+
+class player: public entity{
+	private:
 		int maxJumpHeight;
 		int maxWadeVelocity;
 		int maxSwimVelocity;
-		mVector velocity;
 		int mode;
-		int angle;
-		int handAngle;
-		int omega;
-		int handOmega;
-
+		hand haath;
+		int radius;
 	public:
-		player(maxJumpHeight, maxSwimVelocity, maxWadeVelocity);
-		~player();
-		int getX();
-		int getY();
-		int getAngle();
-		int getHandAngle();
-		int getOmega();
-		int getHandOmega();
-		bool setAngle(int);
-		bool setHandAngle(int);
-		bool setX(int);
-		bool setY(int);
-		mVector getVelocity();
-		bool setVelocity(mVector);
-		bool setVelocity(int,int);
-		bool setOmega(int);
-		bool setHandOmega(int);
+		int getRadius();
 };
+
+class hand: public entity{
+	private:
+		int wastedMemoryYay;
+		int width;
+		int height;
+	public:
+		int getWidth();
+		int getheight();
+
+};
+
+class water{
+	private:
+		LTexture texture;
+	public:
+		Ltexture* getTexture();
+};
+
+class goal{
+	private:
+		LTexture texture;
+	public:
+		Ltexture* getTexture();
+};
+
 
 #endif
