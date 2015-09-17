@@ -84,7 +84,6 @@ bool pollForUserInput()
         if(e.type == SDL_QUIT)
         {
             quit = true;
-            printf("Quit pressed 1\n");
         }   
 
 
@@ -141,29 +140,23 @@ void game()
         if(pollForUserInput() == true) //false return corresponds to game being quit
         {
             quit = true;
-            printf("Quit pressed 2\n");
         }
-        for(int i = 0; i < KEY_TOTAL; i++)
-            if(keyStates[i] == 1)
-            {
-                printf("%d\n", i);
-            }
-
-        resetKeyStates();
         
         //Send keyStates to the physics model
-        //updateObjects(keyStates, Player, Goal, &Ball, &Water);
+        updateObjects(keyStates, Player, Goal, &Ball, &Water);
 
         //Check for Score updation
-        /*if(checkCollision(Ball, Goal[ USER ].blankSpace) != 0)
+        if(checkCollision(Ball, Goal[ USER ].getBlankSpace()) != 0)
             Score[ COMPUTER ] += 1;
-        else if(checkCollision(Ball, Goal[ COMPUTER ].blankSpace) != 0)
-            Score[ GOAL ] += 1;
-        */
+        else if(checkCollision(Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
+            Score[ USER ] += 1;
+
+        resetKeyStates();
 
         frameRender(Player, &Ball);
     }
 
+    printf("User %d - %d Computer\n", Score[USER], Score[COMPUTER]);
     closeObjectTextures(Player, &Ball);
 }
 
