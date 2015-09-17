@@ -12,7 +12,7 @@
 #include "structures.h"
 using namespace std;
 
-int updateObjects(int* keystates, player* players, goal* goals, ball* ball, water* water);																										
+int updateObjects(int* keystates, player* player, goal* goals, ball* ball, water* water, int pCode);																										
 int checkCollision(player player1, player player2);
 int checkCollision(ball ball, player player);
 int checkCollision(ball ball, hand hand);

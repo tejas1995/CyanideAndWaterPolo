@@ -20,7 +20,9 @@ int mVector::getSlope(){
 int mVector::getMag(){
 	return sqrt(y*y + x*x);
 }
-
+int mVector::dot(mVector a){
+	return getX()*(a.getX()) + getY()*(a.getY());
+}
 ball::ball(){
 	setX(0);
 	setY(0);
@@ -101,6 +103,29 @@ bool player::setMode(int s){
 	mode = s;
 	return true;
 }
+
+bool player::setAttributes(int Jump, int Wade, int Swim)
+{
+	maxJumpVelocity = Jump;
+	maxWadeVelocity = Wade;
+	maxSwimVelocity = Swim;
+}
+
+int player::getMaxJumpVelocity()
+{
+	return maxJumpVelocity;
+}
+
+int player::getMaxWadeVelocity()
+{
+	return maxWadeVelocity;
+}
+
+int player::getMaxSwimVelocity()
+{
+	return maxSwimVelocity;
+}
+
 int hand::getHeight(){
 	return height;
 }
