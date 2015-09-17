@@ -10,6 +10,9 @@ using namespace std;
 #include "enums.h"
 
 #define WATER_DEPTH 320
+#define GOAL_WIDTH 80
+#define GOAL_HEIGHT 160
+#define GOAL_THICK 10
 #define CROSS_WADE_TIME 16
 #define CROSS_SWIM_TIME 8
 
@@ -41,17 +44,21 @@ void initialize()
     Ball.getVelocity()->setY(0);
 
     //Initialize the user goal
-    /*Goal[ USER ].setX(560);
+    Goal[ USER ].setX(560);
     Goal[ USER ].setY(160);
+    Goal[ USER ].defineTopNet( Goal[ USER ].getX(), Goal[ USER ].getY(), GOAL_WIDTH, GOAL_THICK );
+    Goal[ USER ].defineBackNet( SCREEN_WIDTH - GOAL_THICK, Goal[ USER ].getY(), GOAL_THICK, GOAL_HEIGHT );
+    Goal[ USER ].defineBlankSpace( Goal[ USER ].getX(), Goal[ USER ].getY() - GOAL_THICK, GOAL_WIDTH - GOAL_THICK, GOAL_HEIGHT - GOAL_THICK);
 
     //Initialize the computer goal
     Goal[ COMPUTER ].setX(80);
     Goal[ COMPUTER ].setY(160);
+    Goal[ USER ].defineTopNet( Goal[ USER ].getX(), Goal[ USER ].getY(), GOAL_WIDTH, GOAL_THICK );
+    Goal[ USER ].defineBackNet( Goal[USER].getX(), Goal[ USER ].getY(), GOAL_THICK, GOAL_HEIGHT );
+    Goal[ USER ].defineBlankSpace( Goal[ USER ].getX() - GOAL_THICK, Goal[ USER ].getY() - GOAL_THICK, GOAL_WIDTH - GOAL_THICK, GOAL_HEIGHT - GOAL_THICK);
 
     //Initializethe water object
-    Water.setX(0);
-    Water.setY(WATER_DEPTH);
-    */
+    Water.setDepth(WATER_DEPTH);
 
     while(!init())
     {
@@ -113,24 +120,13 @@ void resetKeyStates()
         keyStates[i] = 0;
 }
 
-void closeObjectTextures()
-{
-    Player[ USER ].getTexture()->free();
-    Player[ COMPUTER ].getTexture()->free();
-    Goal[ USER ].getTexture()->free();
-    Goal[ COMPUTER ].getTexture()->free();
-    Ball.getTexture()->free();
-    Water.getTexture()->free();
-}
-
-
 void game()
 {
     bool quit = false;
     bool game_in_play = false;
     
     init();
-    //init_render(Player, Goal, &Ball, &Water);
+    loadMedia(Player, Goal, &Ball, &Water);
 
     while(!quit)
     {
@@ -148,10 +144,13 @@ void game()
         resetKeyStates();
         
         //Send keyStates to the physics model
-        //updateObjects(keyStates, Player, Goal, &Ball, &Water);
+        updateObjects(keyStates, Player, Goal, &Ball, &Water);
 
-        //
+        //Check for score updation
+        //if(checkCollision(Ball, Goal[ USER ]))
         
+
+        frameRender(Player, Ball);
     }
 
     closeObjectTextures();

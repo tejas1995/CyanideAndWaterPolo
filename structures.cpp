@@ -115,10 +115,56 @@ LTexture* water::getTexture(){
 LTexture* goal::getTexture(){
 	return &texture;
 }
+
 bool water::setDepth(int d){
 	depth = d;
 	return true;
 }
 int water::getDepth(){
 	return depth;
+
+bool goal::setX(int x1)
+{
+	x = x1;
+	return true;
+}
+
+bool goal::setY(int y1)
+{
+	y = y1;
+	return true;
+}
+
+bool goal::getX()
+{
+	return x;
+}
+
+bool goal::getY()
+{
+	return y;
+}
+
+bool goal::defineTopNet(int start_x, int start_y, int w, int h)
+{
+	topNet.x = start_x;
+	topNet.y = start_y;
+	topNet.w = w;
+	topNet.h = h;
+}
+
+bool goal::defineBackNet(int start_x, int start_y, int w, int h)
+{
+	backNet.x = start_x;
+	backNet.y = start_y;
+	backNet.w = w;
+	backNet.h = h;
+}
+
+bool goal::defineBlankSpace(int start_x, int start_y, int w, int h)
+{
+	blankSpace.x = start_x;
+	blankSpace.y = start_y;
+	blankSpace.w = w;
+	blankSpace.h = h;
 }
