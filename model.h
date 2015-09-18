@@ -16,7 +16,8 @@ int updateObjects(int* keystates, player* player, goal* goals, ball* ball, water
 int checkCollision(player* player1, player* player2);
 int checkCollision(ball* ball, player* player);
 int checkCollision(ball* ball, hand* hand);
-int checkCollision(ball* ball, SDL_Rect goal);
+int checkCollision(ball* ball, SDL_Rect rect);
+int checkCollision(player* player, SDL_Rect rect);
 int collisionReact( entity*, entity*, int, int, float);
 int changePositions(entity* eball, entity* eplayer[]);
 #endif

@@ -96,6 +96,29 @@ int checkCollision(ball *ball, SDL_Rect rect)
 	return 0;
 }
 
+int checkCollision(player* player, SDL_Rect rect)
+{
+	int ballTop = player->getY();
+	int ballBottom = player->getY() + 2*player->getRadius();
+	int ballLeft = player->getX();
+	int ballRight = player->getX() + 2*player->getRadius();
+
+	int rTop = rect.y;
+	int rBottom = rect.y + rect.h;
+	int rLeft = rect.x;
+	int rRight = rect.x + rect.w;
+	if((ballTop <= rBottom) && (ballBottom >= rBottom) && (ballLeft-rLeft)*(ballRight-rRight) <= 0) 
+			return -1;
+	if((ballBottom >= rTop) && (ballTop <= rTop) && (ballLeft-rLeft)*(ballRight-rRight)<=0) 
+			return -1;
+	if((ballLeft <= rRight) && (ballRight >= rRight) && (ballBottom-rBottom)*(ballTop-rTop)<=0)
+			return -2;
+	if((ballRight >= rLeft) && (ballLeft <= rLeft) && (ballBottom-rBottom)*(ballTop-rTop)<=0) 
+			return -2;
+	
+	return 0;
+}
+
 int updateObjects(int* keystates, player player[], goal goals[], ball* ball, water* water, SDL_Rect wall[], int pCode){
 	
 	entity* eball;
@@ -161,7 +184,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 			colFlag = true;
 		}
 
-		collideWall = checkCollision(player[USER], wall[i]);
+		collideWall = checkCollision(&player[USER], wall[i]);
 		if(collideWall == -1)
 		{
 			player[USER].setVelocity(player[USER].getVelocity()->getX(),0);
@@ -173,7 +196,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 			colFlag = true;
 		}
 
-		collideWall = checkCollision(player[COMPUTER], wall[i]);
+		collideWall = checkCollision(&player[COMPUTER], wall[i]);
 		if(collideWall == -1)
 		{
 			player[COMPUTER].setVelocity(player[COMPUTER].getVelocity()->getX(),0);
