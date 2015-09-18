@@ -116,6 +116,34 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		collisionReact( eplayer[COMPUTER], eplayer[USER], 1, 1000, 0.9);
 		colFlag = true;
 	}
+
+
+	if(collideAxis = checkCollision(*ball, goals[USER].getTopNet()))
+	{
+		if(collideAxis == -1)
+		{
+			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()))
+		}
+		else if(collideAxis == -2)
+		{
+			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY())
+		}
+		colFlag = true;
+	}
+
+	if(collideAxis = checkCollision(*ball, goals[COMPUTER].getTopNet()))
+	{
+		if(collideAxis == -1)
+		{
+			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()));
+		}
+		else if(collideAxis == -2)
+		{
+			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY());
+		}
+		colFlag = true;
+	}
+
 	if (colFlag){
 		bool success = false;
 		success = changePositions(eball, eplayer);
@@ -200,8 +228,11 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 		if (keystates[KEY_S] == 1)
 		{
-			if(uvy < player[pCode].getMaxSwimVelocity())
-				uvy += KEY_PRESS_ACCELERATION_SWIM;
+			uvy += (DOWNWARD_CONST_ACCELERATION - DRAG_COEFFICIENT*uvy);
+		}
+		else
+		{
+			uvy -= (BUOYANCY - DRAG_COEFFICIENT*uvy);
 		}
 	}
 
