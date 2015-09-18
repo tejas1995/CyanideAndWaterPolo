@@ -1,16 +1,14 @@
 #include "model.h"
-#define KEY_PRESS_ACCELERATION_WADE 1
-#define KEY_PRESS_ACCELERATION_SWIM 2
-#define GRAVITY_ACCELERATION 2
+#define KEY_PRESS_ACCELERATION_WADE 1.0
+#define KEY_PRESS_ACCELERATION_SWIM 2.0
+#define GRAVITY_ACCELERATION 0.2
 #define BASE_HEIGHT 240
-#define DOWNWARD_CONST_ACCELERATION 1
-#define DRAG_COEFFICIENT 0.25
-#define BUOYANCY 2
+#define DOWNWARD_CONST_ACCELERATION 0.4
+#define DRAG_COEFFICIENT 0.1
+#define BUOYANCY 0.2
 #define BALL_BASE_HEIGHT 280
 
-int collisionReact( entity*, entity*, int, int, float);
 
-int changePositions(entity* eball, entity* eplayer[]);
 int checkCollision(player* player1, player* player2)
 {
 	int x1 = player1->getX(); int x2 = player2->getX();
@@ -156,10 +154,10 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		return success;
 	}
 
-	int uvx = player[pCode].getVelocity() -> getX();
-	int uvy = player[pCode].getVelocity() -> getY();
-	int bvx = ball->getVelocity()->getX();
-	int bvy = ball->getVelocity()->getY();
+	float uvx = player[pCode].getVelocity() -> getX();
+	float uvy = player[pCode].getVelocity() -> getY();
+	float bvx = ball->getVelocity()->getX();
+	float bvy = ball->getVelocity()->getY();
 
 	if (keystates[KEY_SHIFT] == 1)
 	{
@@ -243,13 +241,13 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 	}
 
-	if(ball->getY() <= BALL_BASE_HEIGHT)
+	if(ball->getY() >= BALL_BASE_HEIGHT)
 	{
 		bvx -= bvx*DRAG_COEFFICIENT;
-		bvy -= BUOYANCY*2;
+		bvy -= BUOYANCY*2 + bvy*DRAG_COEFFICIENT*3;
 	}
 
-	else if(ball->getY() > BALL_BASE_HEIGHT)
+	else if(ball->getY() < BALL_BASE_HEIGHT)
 	{
 		bvy += GRAVITY_ACCELERATION;
 	}
@@ -266,14 +264,14 @@ int changePositions(entity* eball, entity** eplayer)
 	eball -> setY(eball -> getY() + eball->getVelocity()->getY());
 	eplayer[USER] -> setX(eplayer[USER] -> getX() + eplayer[USER]->getVelocity()->getX());
 	eplayer[COMPUTER]->setX(eplayer[COMPUTER]->getX()+eplayer[COMPUTER]->getVelocity() -> getX());
-	return true;
+	return 1;
 }
 
 int collisionReact( entity* A, entity* B, int m1, int m2, float e){
 	mVector dir;
 	dir.setX(B->getX()-A->getX());
 	dir.setY(B->getY()-A->getY());
-	int vNormalAf,vNormalAi,vNormalBf,vNormalBi;
+	float vNormalAf,vNormalAi,vNormalBf,vNormalBi;
 	vNormalAi = A->getVelocity()->dot(dir);
 	vNormalBi = A->getVelocity()->dot(dir);
 
@@ -284,16 +282,28 @@ int collisionReact( entity* A, entity* B, int m1, int m2, float e){
 	dirP.setX(dir.getY());
 	dirP.setY(-1*dir.getX());
 
-	int vlaf = A->getVelocity()->dot(dirP);
-	int vlbf = B->getVelocity()->dot(dirP);
+	float vlaf = A->getVelocity()->dot(dirP);
+	float vlbf = B->getVelocity()->dot(dirP);
 
-	int vax = (vNormalAf*(dir.getX()/(dir.getMag()*dir.getMag()))) + vlaf*(dirP.getX()/(dirP.getMag()*dirP.getMag()));
-	int vay = (vNormalAf*(dir.getY()/(dir.getMag()*dir.getMag()))) + vlaf*(dirP.getY()/(dirP.getMag()*dirP.getMag()));
+	float vax = (vNormalAf*(dir.getX()/(dir.getMag()*dir.getMag()))) + vlaf*(dirP.getX()/(dirP.getMag()*dirP.getMag()));
+	float vay = (vNormalAf*(dir.getY()/(dir.getMag()*dir.getMag()))) + vlaf*(dirP.getY()/(dirP.getMag()*dirP.getMag()));
 	
-	int vbx = (vNormalBf*(dir.getX()/(dir.getMag()*dir.getMag()))) + vlbf*(dirP.getX()/(dirP.getMag()*dirP.getMag()));
-	int vby = (vNormalBf*(dir.getY()/(dir.getMag()*dir.getMag()))) + vlbf*(dirP.getY()/(dirP.getMag()*dirP.getMag()));
+	float vbx = (vNormalBf*(dir.getX()/(dir.getMag()*dir.getMag()))) + vlbf*(dirP.getX()/(dirP.getMag()*dirP.getMag()));
+	float vby = (vNormalBf*(dir.getY()/(dir.getMag()*dir.getMag()))) + vlbf*(dirP.getY()/(dirP.getMag()*dirP.getMag()));
 	
 	A->setVelocity(vax,vay);
 	B->setVelocity(vbx,vby);
 	return 0;
+}
+int handShot( player* player, ball* ball, float e, int r){
+	float angle = (player->getHand()->getAngle())*PI/180;
+	int vx = ball->getVelocity()->getX() - player->getVelocity()->getX();
+	int vy = ball->getVelocity()->getY() - player->getVelocity()->getY();
+	int omega = player->getHand()->getOmega();
+	int v1x = (vx*(sin(angle))*(sin(angle))) - (cos(angle)*((e*vx*cos(angle))-(e*vy*sin(angle)) + omega*r*(1+e))) - vy*cos(angle)*sin(angle);
+	int v1y = (vy*(cos(angle))*(cos(angle))) - (sin(angle)*((e*vx*cos(angle))-(e*vy*sin(angle)) + omega*r*(1+e))) - vx*cos(angle)*sin(angle);
+	int u1x = v1x + player->getVelocity()->getX();
+	int u1y = v1y + player->getVelocity()->getY();
+	ball->setVelocity(u1x, u1y);	
+	return 1;
 }

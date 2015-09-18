@@ -17,5 +17,6 @@ int checkCollision(player* player1, player* player2);
 int checkCollision(ball* ball, player* player);
 int checkCollision(ball* ball, hand* hand);
 int checkCollision(ball* ball, SDL_Rect goal);
-
+int collisionReact( entity*, entity*, int, int, float);
+int changePositions(entity* eball, entity* eplayer[]);
 #endif

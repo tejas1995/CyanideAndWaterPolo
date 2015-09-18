@@ -9,25 +9,25 @@
 class mVector{
 	private:
 
-		int x;
-		int y;
+		float x;
+		float y;
 		
 	public:
 		
-		int getX();
-		int getY();
-		bool setX(int);
-		bool setY(int);
-		int getSlope();
-		int getMag();
-		int dot(mVector);
+		float getX();
+		float getY();
+		bool setX(float);
+		bool setY(float);
+		float getSlope();
+		float getMag();
+		float dot(mVector);
 };
 
 class entity{
 	private:
 
 		int x, y;
-		int omega;
+		float omega;
 		int angle;
 		mVector velocity;
 		LTexture texture;
@@ -37,15 +37,15 @@ class entity{
 		LTexture* getTexture();
 		int getX();
 		int getY();
-		int getOmega();
+		float getOmega();
 		int getAngle();
 		bool setAngle(int);
-		bool setOmega(int);
+		bool setOmega(float);
 		bool setX(int);
 		bool setY(int);
 		mVector* getVelocity();
 		bool setVelocity(mVector);
-		bool setVelocity(int,int);
+		bool setVelocity(float,float);
 };
 
 class ball: public entity{
@@ -69,19 +69,20 @@ class hand: public entity{
 };
 class player: public entity{
 	private:
-		int maxJumpVelocity;
-		int maxWadeVelocity;
-		int maxSwimVelocity;
+		float maxJumpVelocity;
+		float maxWadeVelocity;
+		float maxSwimVelocity;
 		int mode;
 		hand haath;
 		int radius;
 	public:
-		bool setAttributes(int , int , int);
-		int getMaxJumpVelocity();
-		int getMaxWadeVelocity();
-		int getMaxSwimVelocity();
+		bool setAttributes(float , float , float);
+		float getMaxJumpVelocity();
+		float getMaxWadeVelocity();
+		float getMaxSwimVelocity();
 		int getMode();
 		int getRadius();
+		hand* getHand();
 		bool setMode(int);
 };
 
