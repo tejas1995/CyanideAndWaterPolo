@@ -12,7 +12,7 @@
 
 bool init();
 bool init_render();
-void setTime(Uint32 currTime, Uint32 startTime);
+unsigned int setTime(Uint32 currTime, Uint32 startTime);
 
 class LTexture
 {
@@ -32,7 +32,7 @@ public:
 	void free();
 
 	//Render at (x,y)
-	void render(int x, int y, double angle=0.0, SDL_Point* center = NULL);
+	void render(int x, int y, double angle=0.0, int center_x = -1000, int center_y = -1000);
 
 	//Set blending
 	void setBlendMode(SDL_BlendMode blending);
