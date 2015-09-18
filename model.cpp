@@ -61,7 +61,7 @@ int checkCollision(ball* ball, hand* hand)
 	float distance = fabs(cosine*(h-x) - sine*(k-y));
 	float pointOfContact = sqrt((h-x)*(h-x) + (k-y)*(k-y) - distance*distance);
 
-	if(radius <= (distance - width/2) && pointOfContact < height)
+	if(radius >= (distance - width/2) && pointOfContact < height)
 	{
 		return pointOfContact;
 	}
@@ -207,24 +207,24 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		}
 		else if(keystates[KEY_L] == 1)
 		{
-			if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) < MAX_ANGLE_BACKWARD)
+			if((player[pCode].getHand() -> getAngle())*(pow(-1,pCode)) < MAX_ANGLE_BACKWARD)
 			{
 				player[pCode].getHand() -> setOmega(ANGULAR_VELOCITY*pow(-1,pCode));
 			}
 
-			else if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) >= MAX_ANGLE_BACKWARD)
+			else if((player[pCode].getHand() -> getAngle())*(pow(-1,pCode)) >= MAX_ANGLE_BACKWARD)
 			{
 				player[pCode].getHand() -> setOmega(0);
 			}
 		}
 		else
 		{
-			if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) > INIT_ANGLE + 5)
+			if((player[pCode].getHand() -> getAngle())*(pow(-1,pCode)) > INIT_ANGLE + 10)
 			{
 				player[pCode].getHand() -> setOmega(ANGULAR_VELOCITY*pow(-1,1+pCode));
 			}
 
-			else if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) < INIT_ANGLE - 5)
+			else if((player[pCode].getHand() -> getAngle())*(pow(-1,pCode)) < INIT_ANGLE - 10)
 			{
 				player[pCode].getHand() -> setOmega(ANGULAR_VELOCITY*pow(-1,pCode));
 			}
@@ -388,6 +388,15 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 			colFlag = true;
 		}		
 	}
+	if(int r = checkCollision(ball, player[USER].getHand()))
+	{
+		handShot(&player[USER], ball, 0.02, r);
+	}
+
+	if(int r = checkCollision(ball, player[COMPUTER].getHand()))
+	{
+		handShot(&player[COMPUTER], ball, 0.02, r);
+	}
 
 /*	if (colFlag){
 		bool success = false;
@@ -451,6 +460,6 @@ int handShot( player* player, ball* ball, float e, int r){
 	int v1y = (vy*(cos(angle))*(cos(angle))) - (sin(angle)*((e*vx*cos(angle))-(e*vy*sin(angle)) + omega*r*(1+e))) - vx*cos(angle)*sin(angle);
 	int u1x = v1x + player->getVelocity()->getX();
 	int u1y = v1y + player->getVelocity()->getY();
-	ball->setVelocity(u1x, u1y);	
+	ball->setVelocity(u1x/75, u1y/75);	
 	return 1;
 }

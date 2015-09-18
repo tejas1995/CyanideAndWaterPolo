@@ -131,6 +131,16 @@ float player::getMaxSwimVelocity()
 	return maxSwimVelocity;
 }
 
+int hand::setHeight(int height)
+{
+	this ->	height = height;
+}
+
+int hand::setWidth(int width)
+{
+	this -> width = width;
+}
+
 int hand::getHeight(){
 	return height;
 }

@@ -43,6 +43,8 @@ void initialize()
     Player[ USER ].getVelocity()->setX(0);
     Player[ USER ].getVelocity()->setY(0);
     Player[ USER ].getHand()->setAngle(INIT_ANGLE);
+    Player[ USER ].getHand()->setHeight(80);
+    Player[ USER ].getHand()->setWidth(14);
     Player[ USER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
     //Initialize the computer player
@@ -50,7 +52,9 @@ void initialize()
     Player[ COMPUTER ].setY(BASE_HEIGHT+10);
     Player[ COMPUTER ].getVelocity()->setX(0);
     Player[ COMPUTER ].getVelocity()->setY(0);
-    Player[ COMPUTER ].getHand()->setAngle(360 - INIT_ANGLE);
+    Player[ COMPUTER ].getHand()->setAngle(- INIT_ANGLE);
+    Player[ COMPUTER ].getHand()->setHeight(80);
+    Player[ COMPUTER ].getHand()->setWidth(14);
     Player[ COMPUTER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
     //Initialize the Ball object
