@@ -28,6 +28,7 @@ ball Ball;
 goal Goal[2];
 int Score[2];
 water Water;
+SDL_Rect Wall[4];
 Uint32 startTime = 0;
 
 int userKeyStates[ KEY_TOTAL ];
@@ -76,6 +77,23 @@ void initialize()
 
     Score[ USER ] = 0;
     Score[ COMPUTER ] = 0;
+
+    Wall[0].x = 0;
+    Wall[0].y = 0;
+    Wall[0].w = SCREEN_WIDTH;
+    Wall[0].h = 1;
+    Wall[1].x = 0;
+    Wall[1].y = 0;
+    Wall[1].w = 1;
+    Wall[1].h = SCREEN_HEIGHT;
+    Wall[2].x = 0;
+    Wall[2].y = SCREEN_HEIGHT-1;
+    Wall[2].w = SCREEN_WIDTH;
+    Wall[2].h = 1;
+    Wall[3].x = SCREEN_WIDTH-1;
+    Wall[3].y = 0;
+    Wall[3].w = 1;
+    Wall[3].h = SCREEN_HEIGHT;
 
     while(!init())
     {
@@ -162,10 +180,10 @@ void game()
         }
         
         //Send userKeyStates to the physics model
-        updateObjects(userKeyStates, Player, Goal, &Ball, &Water, USER);
+        updateObjects(userKeyStates, Player, Goal, &Ball, &Water, Wall, USER);
 
         getCompKeyStates(compKeyStates, Player, Goal, &Ball);
-        updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
+        updateObjects(compKeyStates, Player, Goal, &Ball, &Water, Wall, COMPUTER);
         
         //Check for Score updation
         bool scored = false;
