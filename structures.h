@@ -92,6 +92,7 @@ class water{
 	private:
 		int depth;
 		LTexture texture;
+		SDL_Rect topSurface, bottomSurface;
 	public:
 		int getDepth();
 		bool setDepth(int);
