@@ -322,8 +322,8 @@ void renderHand(player *Player, bool body)
 	else if(body == COMPUTER)
 		hand_x+= (Player->getTexture()->getWidth())/6;*/
 	//hand_y = Player->getY() + (Player->getTexture()->getHeight())/2;
-	hand_y = waterLocal->getDepth();
-	Hand->getTexture()->render(hand_x, hand_y, Hand->getAngle()-180, 0, 0);
+	hand_y = Player->getY()+44;
+	Hand->getTexture()->render(hand_x, hand_y, -(Hand->getAngle()-180), 0, 0);
 }
 
 unsigned int setTime(unsigned int currTime, unsigned int startTime)

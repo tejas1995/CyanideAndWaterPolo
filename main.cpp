@@ -163,7 +163,7 @@ void game()
         //Send userKeyStates to the physics model
         updateObjects(userKeyStates, Player, Goal, &Ball, &Water, USER);
 
-        getCompKeyStates(compKeyStates, Player, Goal, &Ball);
+        //getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
         
         //Check for Score updation
@@ -201,7 +201,7 @@ void game()
         }
 
         //Get compKeyStates and send to the physics model
-        getCompKeyStates(compKeyStates, Player, Goal, &Ball);
+        //getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
 
         resetKeyStates();
