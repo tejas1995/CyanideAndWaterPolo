@@ -19,7 +19,7 @@ using namespace std;
 #define SCREEN_HEIGHT 600
 #define BASE_HEIGHT 320
 #define GRAVITY_ACCELERATION 0.2
-#define JUMP_VELOCITY 1.0
+#define JUMP_VELOCITY 3.0
 #define WADE_VELOCITY 4.0
 #define SWIM_VELOCITY 8.0
 

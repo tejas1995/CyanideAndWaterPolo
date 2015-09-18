@@ -3,7 +3,7 @@
 #define KEY_PRESS_ACCELERATION_SWIM 2.0
 #define GRAVITY_ACCELERATION 0.4
 #define BASE_HEIGHT 320
-#define DOWNWARD_CONST_ACCELERATION 0.2
+#define DOWNWARD_CONST_ACCELERATION 0.6
 #define DRAG_COEFFICIENT 0.5
 #define BUOYANCY 0.4
 #define BALL_BASE_HEIGHT 360
@@ -128,8 +128,133 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 	eplayer[0] = &player[0];
 	eplayer[1] = &player[1];
 	bool colFlag = false;
+
+	float uvx = player[pCode].getVelocity() -> getX();
+	float uvy = player[pCode].getVelocity() -> getY();
+	float bvx = ball->getVelocity()->getX();
+	float bvy = ball->getVelocity()->getY();
+
+	if (keystates[KEY_SHIFT] == 1)
+	{
+		player[pCode].setMode(SWIM);
+	}
+
+	else if(keystates[KEY_SHIFT] == 0)
+	{
+		player[pCode].setMode(WADE);
+	}
+
+	//Now we know the mode
+	
+	if(player[pCode].getMode() == WADE)
+	{
+		if (keystates[KEY_A] == 1)
+		{
+			if(-uvx < player[pCode].getMaxWadeVelocity())
+				uvx -= KEY_PRESS_ACCELERATION_WADE;
+		}
+
+		else
+		{
+			if(uvx < 0)
+				uvx += KEY_PRESS_ACCELERATION_WADE;
+		}
+
+		if (keystates[KEY_D] == 1)
+		{
+			if(uvx < player[pCode].getMaxWadeVelocity())
+				uvx += KEY_PRESS_ACCELERATION_WADE;
+		}
+
+		else
+		{
+			if(uvx > 0)
+				uvx -= KEY_PRESS_ACCELERATION_WADE;
+		}
+
+		if (keystates[KEY_W] == 1)
+		{
+			if(player[pCode].getY() < BASE_HEIGHT+5 && player[pCode].getY() > BASE_HEIGHT)
+			{
+				uvy = (-1)*player[pCode].getMaxJumpVelocity();
+			}
+		}
+		if(player[pCode].getY() < BASE_HEIGHT)
+		{
+			uvy += GRAVITY_ACCELERATION;
+		}
+		if(player[pCode].getY() > BASE_HEIGHT)
+		{
+			uvy -= (BUOYANCY + uvy*DRAG_COEFFICIENT);
+		}
+
+	}
+	else if(player[pCode].getMode() == SWIM)
+	{
+		if (keystates[KEY_A] == 1)
+		{
+			if(-uvx < player[pCode].getMaxSwimVelocity())
+				uvx -= KEY_PRESS_ACCELERATION_SWIM;
+		}
+
+		else
+		{
+			if(uvx < 0)
+				uvx += KEY_PRESS_ACCELERATION_SWIM;
+		}
+
+		if (keystates[KEY_D] == 1)
+		{
+			if(uvx < player[pCode].getMaxSwimVelocity())
+				uvx += KEY_PRESS_ACCELERATION_SWIM;
+		}
+
+		else
+		{
+			if(uvx < 0)
+				uvx += KEY_PRESS_ACCELERATION_SWIM;
+		}
+
+		if (keystates[KEY_S] == 1)
+		{
+			uvy += (DOWNWARD_CONST_ACCELERATION - DRAG_COEFFICIENT*uvy);
+		}
+		if(player[pCode].getY() < BASE_HEIGHT)
+		{
+			uvy += GRAVITY_ACCELERATION;
+		}
+		if(player[pCode].getY() > BASE_HEIGHT)
+		{
+			uvy -= (BUOYANCY + uvy*DRAG_COEFFICIENT);
+		}
+
+	}
+
+	if(ball->getY() > BALL_BASE_HEIGHT)
+	{
+		bvx -= bvx*DRAG_COEFFICIENT;
+		bvy -= BUOYANCY*2 + bvy*DRAG_COEFFICIENT*3;
+	}
+
+	else if(ball->getY() < BALL_BASE_HEIGHT)
+	{
+		bvy += GRAVITY_ACCELERATION;
+	}
+
+	if(ball->getY() == BALL_BASE_HEIGHT)
+	{
+		if(fabs(bvy) < 0.2)
+		{
+			bvy = 0;
+		}
+	}
+
+
+	player[pCode].setVelocity(uvx, uvy);
+	ball->setVelocity(bvx,bvy);
+
 	if(checkCollision(ball, &player[USER])>0){
-		collisionReact( eball, eplayer[USER], 1, 10000, 0.9);
+		collisionReact( eball, eplayer[USER], 1, 900000, 1);
 		colFlag = true;
 	}
 	if(checkCollision(ball, &player[COMPUTER])>0){
@@ -209,124 +334,11 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		}		
 	}
 
-	if (colFlag){
+/*	if (colFlag){
 		bool success = false;
 		success = changePositions(eball, eplayer);
 		return success;
-	}
-
-	float uvx = player[pCode].getVelocity() -> getX();
-	float uvy = player[pCode].getVelocity() -> getY();
-	float bvx = ball->getVelocity()->getX();
-	float bvy = ball->getVelocity()->getY();
-
-	if (keystates[KEY_SHIFT] == 1)
-	{
-		player[pCode].setMode(SWIM);
-	}
-
-	else if(keystates[KEY_SHIFT] == 0)
-	{
-		player[pCode].setMode(WADE);
-	}
-
-	//Now we know the mode
-	
-	if(player[pCode].getMode() == WADE)
-	{
-		if (keystates[KEY_A] == 1)
-		{
-			if(-uvx < player[pCode].getMaxWadeVelocity())
-				uvx -= KEY_PRESS_ACCELERATION_WADE;
-		}
-
-		else
-		{
-			if(uvx < 0)
-				uvx += KEY_PRESS_ACCELERATION_WADE;
-		}
-
-		if (keystates[KEY_D] == 1)
-		{
-			if(uvx < player[pCode].getMaxWadeVelocity())
-				uvx += KEY_PRESS_ACCELERATION_WADE;
-		}
-
-		else
-		{
-			if(uvx > 0)
-				uvx -= KEY_PRESS_ACCELERATION_WADE;
-		}
-
-		if (keystates[KEY_W] == 1)
-		{
-			if(player[pCode].getY() == BASE_HEIGHT)
-			{
-				uvy = (-1)*player[pCode].getMaxJumpVelocity();
-			}
-		}
-		if(player[pCode].getY() < BASE_HEIGHT)
-		{
-			uvy += GRAVITY_ACCELERATION;
-		}
-		if(player[pCode].getY() > BASE_HEIGHT)
-		{
-			uvy -= (BUOYANCY - uvy*DRAG_COEFFICIENT);
-		}
-
-	}
-	else if(player[pCode].getMode() == SWIM)
-	{
-		if (keystates[KEY_A] == 1)
-		{
-			if(-uvx < player[pCode].getMaxSwimVelocity())
-				uvx -= KEY_PRESS_ACCELERATION_SWIM;
-		}
-
-		else
-		{
-			if(uvx < 0)
-				uvx += KEY_PRESS_ACCELERATION_SWIM;
-		}
-
-		if (keystates[KEY_D] == 1)
-		{
-			if(uvx < player[pCode].getMaxSwimVelocity())
-				uvx += KEY_PRESS_ACCELERATION_SWIM;
-		}
-
-		else
-		{
-			if(uvx < 0)
-				uvx += KEY_PRESS_ACCELERATION_SWIM;
-		}
-
-		if (keystates[KEY_S] == 1)
-		{
-			uvy += (DOWNWARD_CONST_ACCELERATION - DRAG_COEFFICIENT*uvy);
-		}
-	}
-
-	if(ball->getY() > BALL_BASE_HEIGHT)
-	{
-		bvx -= bvx*DRAG_COEFFICIENT;
-		bvy -= BUOYANCY*2 + bvy*DRAG_COEFFICIENT*3;
-	}
-
-	else if(ball->getY() < BALL_BASE_HEIGHT)
-	{
-		bvy += GRAVITY_ACCELERATION;
-	}
-
-	if(ball->getY() == BALL_BASE_HEIGHT)
-	{
-		if(fabs(bvy) < 0.2)
-		{
-			bvy = 0;
-		}
-	}
-	player[pCode].setVelocity(uvx, uvy);
-	ball->setVelocity(bvx,bvy);
+	}*/
 	changePositions(eball, eplayer);
 	return 0;
 }
@@ -350,6 +362,9 @@ int collisionReact( entity* A, entity* B, int m1, int m2, float e){
 	vNormalAi = A->getVelocity()->dot(dir);
 	vNormalBi = B->getVelocity()->dot(dir);
 
+	if(vNormalBi>vNormalAi){
+		return 0;
+	}
 	vNormalBf = (m1*vNormalAi*(1+e) + (m2-m1*e)*vNormalBi) / (m1+m2);
 	vNormalAf = (m2*vNormalBi*(1+e) + (m1-m2*e)*vNormalAi) / (m1+m2);
 
