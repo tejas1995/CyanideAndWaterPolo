@@ -4,6 +4,7 @@
 #define GRAVITY_ACCELERATION 10
 #define BASE_HEIGHT 280
 
+int collisionReact( entity*, entity*, int, int, float);
 int checkCollision(player player1, player player2)
 {
 	int x1 = player1.getX(); int x2 = player2.getX();
@@ -100,6 +101,23 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 	eball = ball;
 	eplayer[0] = &player[0];
 	eplayer[1] = &player[1];
+	bool colFlag = false;
+	if(checkCollision(*ball, player[USER])>0){
+		collisionReact( eball, eplayer[USER], 1, 10000, 0.9);
+		colFlag = true;
+	}
+	if(checkCollision(*ball, player[COMPUTER])>0){
+		collisionReact( eball, eplayer[COMPUTER], 1, 10000, 0.9);
+		colFlag = true;
+	}
+
+	if(checkCollision(player[USER], player[COMPUTER])>0){
+		collision React( eplayer[COMPUTER], eplayer[USER], 1, 1000, 0.9);
+		colFlag = true;
+	}
+	if (colFlag){
+		return 0;
+	}
 
 	int uvx = player[USER].getVelocity() -> getX();
 	int uvy = player[USER].getVelocity() -> getY();
@@ -116,6 +134,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		player[pCode].setMode(WADE);
 	}
 	//Now we know the mode
+	
 	if(player[pCode].getMode() == WADE)
 	{
 		if (keystates[KEY_A] == 1)
@@ -185,7 +204,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 	return 0;
 }
-int collisionReact( entity* A, entity* B, int m1, int m2, int e){
+int collisionReact( entity* A, entity* B, int m1, int m2, float e){
 	mVector dir;
 	dir.setX(B->getX()-A->getX());
 	dir.setY(B->getY()-A->getY());
