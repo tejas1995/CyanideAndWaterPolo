@@ -155,27 +155,23 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 			}
 		}
 
-		else
-		{
-			if(uvx < 0){
-				uvx += KEY_PRESS_ACCELERATION_WADE;
-				if (uvx > 0){
-					uvx=0;
-				}
-			}
-		}
-
 		if (keystates[KEY_D] == 1)
 		{
 			if(uvx < player[pCode].getMaxWadeVelocity())
 				uvx += KEY_PRESS_ACCELERATION_WADE;
 		}
 
-		else
+		if( keystates[KEY_D] == 0 && keystates[KEY_A] ==0)
 		{
 			if(uvx > 0){
 				uvx -= KEY_PRESS_ACCELERATION_WADE;
 				if (uvx<0){
+					uvx=0;
+				}
+			}
+			else if(uvx <0){
+				uvx += KEY_PRESS_ACCELERATION_WADE;
+				if (uvx>0){
 					uvx=0;
 				}
 			}
@@ -206,11 +202,6 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 				uvx -= KEY_PRESS_ACCELERATION_SWIM;
 		}
 
-		else
-		{
-			if(uvx < 0)
-				uvx += KEY_PRESS_ACCELERATION_SWIM;
-		}
 
 		if (keystates[KEY_D] == 1)
 		{
@@ -218,10 +209,21 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 				uvx += KEY_PRESS_ACCELERATION_SWIM;
 		}
 
-		else
+		else if ( keystates[KEY_A] ==0 && keystates[KEY_D] ==0)
 		{
-			if(uvx > 0)
+			if(uvx < 0){
 				uvx += KEY_PRESS_ACCELERATION_SWIM;
+				if (uvx>0){
+					uvx=0;
+				}
+			
+			}
+			else if(uvx > 0){
+				uvx -= KEY_PRESS_ACCELERATION_SWIM;
+				if (uvx<0){
+					uvx = 0;
+				}
+			}
 		}
 
 		if (keystates[KEY_S] == 1)
