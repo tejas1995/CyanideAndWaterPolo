@@ -149,6 +149,7 @@ void game()
     startTime = SDL_GetTicks();
     bool quit = false;
     bool game_in_play = false;
+    int seconds_remaining;
     
     init();
     loadMedia(Player, Goal, &Ball, &Water);
@@ -163,7 +164,7 @@ void game()
         //Send userKeyStates to the physics model
         updateObjects(userKeyStates, Player, Goal, &Ball, &Water, USER);
 
-        //getCompKeyStates(compKeyStates, Player, Goal, &Ball);
+        getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
         
         //Check for Score updation
@@ -182,30 +183,40 @@ void game()
 
         if(scored)
         {
-            Player[ USER ].setX(480);
-            Player[ USER ].setY(BASE_HEIGHT);
+            SDL_Delay(2000);
+            Player[ USER ].setX(840);
+            Player[ USER ].setY(BASE_HEIGHT+10);
             Player[ USER ].getVelocity()->setX(0);
             Player[ USER ].getVelocity()->setY(0);
+            Player[ USER ].getHand()->setAngle(0);
 
             //Initialize the computer player
             Player[ COMPUTER ].setX(80);
-            Player[ COMPUTER ].setY(BASE_HEIGHT);
+            Player[ COMPUTER ].setY(BASE_HEIGHT+10);
             Player[ COMPUTER ].getVelocity()->setX(0);
             Player[ COMPUTER ].getVelocity()->setY(0);
-            
+            Player[ COMPUTER ].getHand()->setAngle(0);
+
             //Initialize the Ball object
-            Ball.setX(306);
+            Ball.setX(478);
             Ball.setY(160);
             Ball.getVelocity()->setX(0);
             Ball.getVelocity()->setY(0);
+
         }
 
-        //Get compKeyStates and send to the physics model
-        //getCompKeyStates(compKeyStates, Player, Goal, &Ball);
-        updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
-
         resetKeyStates();
-        setTime(SDL_GetTicks(), startTime);
+        seconds_remaining = setTime(SDL_GetTicks(), startTime);
+
+        if(seconds_remainig == 0)
+        {
+            if(score[USER] > score[COMPUTER])
+                printf("User wins\n");
+            else if(score[USER] < score[COMPUTER])
+                printf("Computer wins!\n");
+            else
+                printf("Draw!\n");
+        }
         frameRender(Player, &Ball);
     }
 
