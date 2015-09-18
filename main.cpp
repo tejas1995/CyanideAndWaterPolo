@@ -19,11 +19,13 @@ using namespace std;
 #define SCREEN_HEIGHT 600
 #define BASE_HEIGHT 320
 #define GRAVITY_ACCELERATION 0.2
-#define JUMP_VELOCITY 5.0
+#define JUMP_VELOCITY 6.0
 #define WADE_VELOCITY 4.0
-#define SWIM_VELOCITY 6.0
+#define SWIM_VELOCITY 3.5
 #define INIT_ANGLE 150
 
+
+>>>>>>> Resolved merge conflicts; Modified AI
 player Player[2];
 ball Ball;
 goal Goal[2];
@@ -207,20 +209,23 @@ void game()
             Player[ USER ].setY(BASE_HEIGHT+10);
             Player[ USER ].getVelocity()->setX(0);
             Player[ USER ].getVelocity()->setY(0);
-            Player[ USER ].getHand()->setAngle(0);
+            Player[ USER ].getHand()->setAngle(240);
+            Player[ USER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
             //Initialize the computer player
             Player[ COMPUTER ].setX(80);
             Player[ COMPUTER ].setY(BASE_HEIGHT+10);
             Player[ COMPUTER ].getVelocity()->setX(0);
             Player[ COMPUTER ].getVelocity()->setY(0);
-            Player[ COMPUTER ].getHand()->setAngle(0);
+            Player[ COMPUTER ].getHand()->setAngle(120);
+            Player[ COMPUTER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
             //Initialize the Ball object
             Ball.setX(478);
             Ball.setY(160);
             Ball.getVelocity()->setX(0);
             Ball.getVelocity()->setY(0);
+
 
         }
 
@@ -241,7 +246,6 @@ void game()
 
         if(scored)
         {
-            SDL_Delay(2000);
             scored = false;
         }
     }
