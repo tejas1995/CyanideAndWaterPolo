@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 using namespace std;
@@ -10,15 +11,17 @@ using namespace std;
 #include "enums.h"
 #include "ai.h"
 
-#define WATER_DEPTH 320
+#define WATER_DEPTH 400
 #define GOAL_WIDTH 80
 #define GOAL_HEIGHT 160
 #define GOAL_THICK 10
 #define CROSS_WADE_TIME 16
 #define CROSS_SWIM_TIME 8
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define BASE_HEIGHT 240
+#define MAX_JUMP_HEIGHT 30
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 600
+#define BASE_HEIGHT 320
+#define GRAVITY_ACCELERATION 0.2
 
 player Player[2];
 ball Ball;
@@ -33,33 +36,35 @@ int compKeyStates[ KEY_TOTAL ];
 void initialize()
 {
     //Initialize the user player
-    Player[ USER ].setX(480);
-    Player[ USER ].setY(BASE_HEIGHT);
+    Player[ USER ].setX(840);
+    Player[ USER ].setY(BASE_HEIGHT+10);
     Player[ USER ].getVelocity()->setX(0);
     Player[ USER ].getVelocity()->setY(0);
+    Player[ USER ].setAttributes(sqrt(2*GRAVITY_ACCELERATION*MAX_JUMP_HEIGHT), SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME);
 
     //Initialize the computer player
     Player[ COMPUTER ].setX(80);
-    Player[ COMPUTER ].setY(BASE_HEIGHT);
+    Player[ COMPUTER ].setY(BASE_HEIGHT+10);
     Player[ COMPUTER ].getVelocity()->setX(0);
     Player[ COMPUTER ].getVelocity()->setY(0);
-    
+    Player[ COMPUTER ].setAttributes(sqrt(2*GRAVITY_ACCELERATION*MAX_JUMP_HEIGHT), SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME);
+
     //Initialize the Ball object
-    Ball.setX(306);
+    Ball.setX(478);
     Ball.setY(160);
     Ball.getVelocity()->setX(0);
     Ball.getVelocity()->setY(0);
 
     //Initialize the user goal
-    Goal[ USER ].setX(560);
-    Goal[ USER ].setY(160);
+    Goal[ USER ].setX(920);
+    Goal[ USER ].setY(240);
     Goal[ USER ].defineTopNet( Goal[ USER ].getX(), Goal[ USER ].getY(), GOAL_WIDTH, GOAL_THICK );
     Goal[ USER ].defineBackNet( SCREEN_WIDTH - GOAL_THICK, Goal[ USER ].getY(), GOAL_THICK, GOAL_HEIGHT );
     Goal[ USER ].defineBlankSpace( Goal[ USER ].getX(), Goal[ USER ].getY() - GOAL_THICK, GOAL_WIDTH - GOAL_THICK, GOAL_HEIGHT - GOAL_THICK);
 
     //Initialize the computer goal
     Goal[ COMPUTER ].setX(0);
-    Goal[ COMPUTER ].setY(160);
+    Goal[ COMPUTER ].setY(240);
     Goal[ COMPUTER ].defineTopNet( Goal[ COMPUTER ].getX(), Goal[ COMPUTER ].getY(), GOAL_WIDTH, GOAL_THICK );
     Goal[ COMPUTER ].defineBackNet( Goal[COMPUTER].getX(), Goal[ COMPUTER ].getY(), GOAL_THICK, GOAL_HEIGHT );
     Goal[ COMPUTER ].defineBlankSpace( Goal[ COMPUTER ].getX() + GOAL_THICK, Goal[ COMPUTER ].getY() - GOAL_THICK, GOAL_WIDTH - GOAL_THICK, GOAL_HEIGHT - GOAL_THICK);

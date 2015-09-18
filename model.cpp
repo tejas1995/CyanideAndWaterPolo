@@ -2,11 +2,11 @@
 #define KEY_PRESS_ACCELERATION_WADE 1.0
 #define KEY_PRESS_ACCELERATION_SWIM 2.0
 #define GRAVITY_ACCELERATION 0.2
-#define BASE_HEIGHT 240
+#define BASE_HEIGHT 320
 #define DOWNWARD_CONST_ACCELERATION 0.4
 #define DRAG_COEFFICIENT 0.1
 #define BUOYANCY 0.2
-#define BALL_BASE_HEIGHT 280
+#define BALL_BASE_HEIGHT 360
 
 
 int checkCollision(player* player1, player* player2)
