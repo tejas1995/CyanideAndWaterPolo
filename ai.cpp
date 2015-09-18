@@ -8,6 +8,7 @@
 #define MIN_DIVE_DISTANCE 40
 #define DEFENSE_FACTOR 1.2
 #define WADE_FACTOR 0.3
+#define GRAVITY_ACCELERATION 0.4
 
 float distance(player *Player)
 {
@@ -74,28 +75,28 @@ void getCompKeyStates(int* compKeyStates, player* Player, goal* Goal, ball* Ball
     }
     else
     {
-        compKeyStates[KEY_SHIFT] = 1; //By default, swim
-
-        if(fabs(sCompBallDistance) >= DEFENSE_FACTOR*fabs(sUserBallDistance) && fabs(sCGoalBallDistance) > fabs(sCompCGoalDistance))
-        {
-            if(sCompBallDistance < 0)   //Move computer player to right away from the ball
-                compKeyStates[KEY_D] = 1;
-            else                        //Move computer player to left away from the ball
-                compKeyStates[KEY_A] = 1;
-        }
-        else
-        {
-            if(sCompBallDistance < 0)   //Move computer player to left towards the ball
-                compKeyStates[KEY_A] = 1;
-            else                        //Move computer player to rightt towards the ball
-                compKeyStates[KEY_D] = 1;
-
-            if(fabs(sCompBallDistance) < WADE_FACTOR*fabs(sUserBallDistance))
+            if(fabs(sCompBallDistance) >= DEFENSE_FACTOR*fabs(sUserBallDistance) && fabs(sCGoalBallDistance) > fabs(sCompCGoalDistance))
             {
-                compKeyStates[KEY_SHIFT] = 0;   //Make computer wade
+                if(sCompBallDistance < 0)   //Move computer player to right away from the ball
+                    compKeyStates[KEY_D] = 1;
+                else                        //Move computer player to left away from the ball
+                    compKeyStates[KEY_A] = 1;
+            }
+            else
+            {
+                if(sCompBallDistance < 0)   //Move computer player to left towards the ball
+                    compKeyStates[KEY_A] = 1;
+                else                        //Move computer player to rightt towards the ball
+                    compKeyStates[KEY_D] = 1;
+
+                if(fabs(sCompBallDistance) < WADE_FACTOR*fabs(sUserBallDistance))
+                {
+                    compKeyStates[KEY_SHIFT] = 0;   //Make computer wade
+                }
+                
             }
             
-        }
+        
     }
 
 }
