@@ -1,8 +1,12 @@
 #include "model.h"
-#define KEY_PRESS_ACCELERATION_WADE 10
-#define KEY_PRESS_ACCELERATION_SWIM 10
-#define GRAVITY_ACCELERATION 10
-#define BASE_HEIGHT 280
+#define KEY_PRESS_ACCELERATION_WADE 1
+#define KEY_PRESS_ACCELERATION_SWIM 2
+#define GRAVITY_ACCELERATION 2
+#define BASE_HEIGHT 240
+#define DOWNWARD_CONST_ACCELERATION 1
+#define DRAG_COEFFICIENT 0.25
+#define BUOYANCY 2
+#define BALL_BASE_HEIGHT 280
 
 int collisionReact( entity*, entity*, int, int, float);
 int changePositions(entity* eball, entity* eplayer[]);
@@ -116,6 +120,33 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		collisionReact( eplayer[COMPUTER], eplayer[USER], 1, 1000, 0.9);
 		colFlag = true;
 	}
+
+	if(collideAxis = checkCollision(*ball, goals[USER].getTopNet()))
+	{
+		if(collideAxis == -1)
+		{
+			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()))
+		}
+		else if(collideAxis == -2)
+		{
+			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY())
+		}
+		colFlag = true;
+	}
+
+	if(collideAxis = checkCollision(*ball, goals[COMPUTER].getTopNet()))
+	{
+		if(collideAxis == -1)
+		{
+			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()))
+		}
+		else if(collideAxis == -2)
+		{
+			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY())
+		}
+		colFlag = true;
+	}
+
 	if (colFlag){
 		bool success = false;
 		success = changePositions(eball, eplayer);
@@ -124,8 +155,8 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 	int uvx = player[pCode].getVelocity() -> getX();
 	int uvy = player[pCode].getVelocity() -> getY();
-	int cvx = player[1 - pCode].getVelocity() -> getX();
-	int cvy = player[1 - pCode].getVelocity() -> getY();
+	int bvx = ball->getVelocity()->getX();
+	int bvy = ball->getVelocity()->getY();
 
 	if (keystates[KEY_SHIFT] == 1)
 	{
@@ -200,12 +231,28 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 		if (keystates[KEY_S] == 1)
 		{
-			if(uvy < player[pCode].getMaxSwimVelocity())
-				uvy += KEY_PRESS_ACCELERATION_SWIM;
+			uvy += (DOWNWARD_CONST_ACCELERATION - DRAG_COEFFICIENT*uvy);
 		}
+		else
+		{
+			uvy -= (BUOYANCY - DRAG_COEFFICIENT*uvy)
+		}
+
+	}
+
+	if(ball->getY() <= BALL_BASE_HEIGHT)
+	{
+		bvx -= bvx*DRAG_COEFFICIENT;
+		bvy -= BUOYANCY*2;
+	}
+
+	else if(ball->getY() > BALL_BASE_HEIGHT)
+	{
+		bvy += GRAVITY_ACCELERATION;
 	}
 
 	player[pCode].setVelocity(uvx, uvy);
+	ball->setVelocity(bvx,bvy);
 	changePositions(eball, eplayer);
 	return 0;
 }
