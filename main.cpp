@@ -41,6 +41,7 @@ void initialize()
     Player[ USER ].getVelocity()->setX(0);
     Player[ USER ].getVelocity()->setY(0);
     Player[ USER ].setAttributes(sqrt(2*GRAVITY_ACCELERATION*MAX_JUMP_HEIGHT), SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME);
+    Player[ USER ].getHand()->setAngle(0);
 
     //Initialize the computer player
     Player[ COMPUTER ].setX(80);
@@ -48,6 +49,7 @@ void initialize()
     Player[ COMPUTER ].getVelocity()->setX(0);
     Player[ COMPUTER ].getVelocity()->setY(0);
     Player[ COMPUTER ].setAttributes(sqrt(2*GRAVITY_ACCELERATION*MAX_JUMP_HEIGHT), SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME);
+    Player[ COMPUTER ].getHand()->setAngle(0);
 
     //Initialize the Ball object
     Ball.setX(478);

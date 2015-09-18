@@ -255,8 +255,8 @@ bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
         		Goal[ USER ].getTexture()->loadFromFile("img/goal_0.png")&&
         		Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal_1.png")&&
         		Ball->getTexture()->loadFromFile("img/ball.png")&&
-        		Water->getTexture()->loadFromFile("img/waves.png")
-        		//&& backTexture.loadFromFile("img/background.png")
+        		Water->getTexture()->loadFromFile("img/waves.png")&& 
+        		backTexture.loadFromFile("img/beach-bg.png")
         		))
 			return false;	
 		}
@@ -274,7 +274,7 @@ void frameRender(player *Player, ball *Ball)
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderClear(gRenderer);
 	SDL_Delay(50);
-	//backTexture.render(0,0);
+	backTexture.render(0,0);
 	textTexture.render((SCREEN_WIDTH - textTexture.getWidth())/2,0);
 	Player[USER].getTexture()->render(Player[USER].getX(), Player[USER].getY(), Player[USER].getAngle());
 	Player[COMPUTER].getTexture()->render(Player[COMPUTER].getX(), Player[COMPUTER].getY(), Player[COMPUTER].getAngle());
