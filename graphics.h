@@ -13,7 +13,7 @@
 bool init();
 bool init_render();
 unsigned int setTime(Uint32 currTime, Uint32 startTime);
-
+void scoreUpdate(int []);
 class LTexture
 {
 public:
