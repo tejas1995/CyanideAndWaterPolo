@@ -97,19 +97,19 @@ bool LTexture::loadFromRenderedText(std::string text, SDL_Color textColor)
 	return (this->mTexture)!=NULL;
 }
 
-void LTexture::render(int x,int y, double angle, SDL_Point* center)
+void LTexture::render(int x,int y, double angle, int center_x, int center_y)
 {
-	//SDL_Point center = {center_x,center_y};
+	SDL_Point center = {center_x,center_y};
 	SDL_Rect renderQuad = {x ,y , this->mWidth, this->mHeight};
-	//if(center_x==-1||center_y == -1)
-	//{
-	//	SDL_RenderCopyEx(gRenderer, (this->mTexture), NULL, &renderQuad, angle, NULL, SDL_FLIP_NONE);
+	if(center_x==-1000||center_y == -1000)
+	{
+		SDL_RenderCopyEx(gRenderer, (this->mTexture), NULL, &renderQuad, angle, NULL, SDL_FLIP_NONE);
 //		printf("%d %d %d %d\n", x,y,center_x,center_y);
-//	}
-//	else
-//	{
-	SDL_RenderCopyEx(gRenderer, (this->mTexture), NULL, &renderQuad, angle, center, SDL_FLIP_NONE);
-	//}
+	}
+	else
+	{
+		SDL_RenderCopyEx(gRenderer, (this->mTexture), NULL, &renderQuad, angle, &center, SDL_FLIP_NONE);
+	}
 	
 }
 
@@ -262,7 +262,8 @@ bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
 			return false;	
 		}
 	}
-	
+	Water->getTexture()->setBlendMode(SDL_BLENDMODE_BLEND);
+	Water->getTexture()->setAlpha(200);
 	goalLocal = Goal;
 	waterLocal = Water;
     frameRender(Player, Ball);
@@ -276,18 +277,18 @@ void frameRender(player *Player, ball *Ball)
 	SDL_Delay(50);
 	//backTexture.render(0,0);
 	textTexture.render((SCREEN_WIDTH - textTexture.getWidth())/2,0);
-	waterLocal->getTexture()->render(0, waterLocal->getDepth()-20);
 	Player[USER].getTexture()->render(Player[USER].getX(), Player[USER].getY(), Player[USER].getAngle());
 	Player[COMPUTER].getTexture()->render(Player[COMPUTER].getX(), Player[COMPUTER].getY(), Player[COMPUTER].getAngle());
 	goalLocal[USER].getTexture()->render(goalLocal[USER].getX(),goalLocal[USER].getY());
 	goalLocal[COMPUTER].getTexture()->render(goalLocal[COMPUTER].getX(),goalLocal[COMPUTER].getY());
 	Ball->getTexture()->render(Ball->getX(),Ball->getY());
+	waterLocal->getTexture()->render(0, waterLocal->getDepth()-20);
 	
 	//printf("pass%d %d\n", Player[USER].getX(), Player[USER].getY());
 	SDL_RenderPresent(gRenderer);
 }
 
-void setTime(unsigned int currTime, unsigned int startTime)
+unsigned int setTime(unsigned int currTime, unsigned int startTime)
 {
 	SDL_Color textColor = {0,0,0};
 	unsigned int durationSecs = 120-((currTime - startTime)/1000);
@@ -296,6 +297,7 @@ void setTime(unsigned int currTime, unsigned int startTime)
 	timeText<< std::setfill('0')<< std::setw(2) << durationMins<<":"<<std::setfill('0')<< std::setw(2)<< durationSecs%60;
 	textTexture.loadFromRenderedText(timeText.str().c_str(), textColor);
 	timeText.str("");
+	return durationSecs;
 }
 
 void closeObjectTextures(player *Player, ball *Ball)
