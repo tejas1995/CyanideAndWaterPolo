@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <sstream>
 #include <iomanip>
+#include "enums.h"
 
 bool init();
 bool init_render();
@@ -50,5 +51,29 @@ private:
 	//Image Dimensions
 	int mWidth;
 	int mHeight;
+};
+
+class LButton
+{
+public:
+	//Constructor and Destructor
+	LButton();
+	~LButton();
+
+	//Setting button position
+	void setPosition(int x, int y);
+
+	//Handle mouse events
+	void handleEvent(SDL_Event* e);
+
+	//Render button sprite
+	void render();
+
+private:
+	//Position
+	SDL_Point mPosition;
+
+	//Currently used global sprite
+	ButtonSprite mCurrentSprite;
 };
 #endif
