@@ -5,6 +5,7 @@
 #define BASE_HEIGHT 280
 
 int collisionReact( entity*, entity*, int, int, float);
+int changePositions(entity* eball, entity* eplayer[]);
 int checkCollision(player player1, player player2)
 {
 	int x1 = player1.getX(); int x2 = player2.getX();
@@ -116,13 +117,15 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		colFlag = true;
 	}
 	if (colFlag){
-		return 0;
+		bool success = false;
+		success = changePositions(eball, eplayer);
+		return success;
 	}
 
-	int uvx = player[USER].getVelocity() -> getX();
-	int uvy = player[USER].getVelocity() -> getY();
-	int cvx = player[COMPUTER].getVelocity() -> getX();
-	int cvy = player[COMPUTER].getVelocity() -> getY();
+	int uvx = player[pCode].getVelocity() -> getX();
+	int uvy = player[pCode].getVelocity() -> getY();
+	int cvx = player[1 - pCode].getVelocity() -> getX();
+	int cvy = player[1 - pCode].getVelocity() -> getY();
 
 	if (keystates[KEY_SHIFT] == 1)
 	{
@@ -202,8 +205,20 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		}
 	}
 
+	player[pCode].setVelocity(uvx, uvy);
+	changePositions(eball, eplayer);
 	return 0;
 }
+
+int changePositions(entity* eball, entity** eplayer)
+{
+	eball -> setX(eball -> getX() + eball->getVelocity()->getX());
+	eball -> setY(eball -> getY() + eball->getVelocity()->getY());
+	eplayer[USER] -> setX(eplayer[USER] -> getX() + eplayer[USER]->getVelocity()->getX());
+	eplayer[COMPUTER]->setX(eplayer[COMPUTER]->getX()+eplayer[COMPUTER]->getVelocity() -> getX());
+	return true;
+}
+
 int collisionReact( entity* A, entity* B, int m1, int m2, float e){
 	mVector dir;
 	dir.setX(B->getX()-A->getX());
