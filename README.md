@@ -24,3 +24,7 @@ Keys:
 W/A/D : Wade Up/Left/Right
 Shift + A/S/D : Swim Down/Left/Right
 K/L : Forward/Backward Hit
+
+##GitHub Source Link
+The source code for CyanideAndWaterPolo is available at:
+https://github.com/tejas1995/CyanideAndWaterPolo
