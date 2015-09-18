@@ -183,7 +183,7 @@ void game()
 
         if(scored)
         {
-            scoreUpdate(score);
+            scoreUpdate(Score);
 
             Player[ USER ].setX(840);
             Player[ USER ].setY(BASE_HEIGHT+10);
@@ -211,9 +211,10 @@ void game()
 
         if(seconds_remaining == 0)
         {
-            if(score[USER] > score[COMPUTER])
+            quit = true;
+            if(Score[USER] > Score[COMPUTER])
                 printf("User wins\n");
-            else if(score[USER] < score[COMPUTER])
+            else if(Score[USER] < Score[COMPUTER])
                 printf("Computer wins!\n");
             else
                 printf("Draw!\n");
