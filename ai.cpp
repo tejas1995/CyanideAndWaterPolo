@@ -41,6 +41,11 @@ void getCompKeyStates(int* compKeyStates, player* Player, goal* Goal, ball* Ball
     float sCompCGoalDistance = distance(&Player[COMPUTER], &Goal[COMPUTER]);
     float sCompUGoalDistance = distance(&Player[COMPUTER], &Goal[USER]);
     
+    if(sCompBallDistance <= 100)
+    {
+        compKeyStates[KEY_K] = 1;
+    }
+
     if(sUserBallDistance*sCompBallDistance > 0)
     {
         compKeyStates[KEY_SHIFT] = 1; //Always be swimming
