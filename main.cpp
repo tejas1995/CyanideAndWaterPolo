@@ -57,14 +57,14 @@ void initialize()
 
     //Initialize the user goal
     Goal[ USER ].setX(920);
-    Goal[ USER ].setY(240);
+    Goal[ USER ].setY(200);
     Goal[ USER ].defineTopNet( Goal[ USER ].getX(), Goal[ USER ].getY(), GOAL_WIDTH, GOAL_THICK );
     Goal[ USER ].defineBackNet( SCREEN_WIDTH - GOAL_THICK, Goal[ USER ].getY(), GOAL_THICK, GOAL_HEIGHT );
     Goal[ USER ].defineBlankSpace( Goal[ USER ].getX(), Goal[ USER ].getY() - GOAL_THICK, GOAL_WIDTH - GOAL_THICK, GOAL_HEIGHT - GOAL_THICK);
 
     //Initialize the computer goal
     Goal[ COMPUTER ].setX(0);
-    Goal[ COMPUTER ].setY(240);
+    Goal[ COMPUTER ].setY(200);
     Goal[ COMPUTER ].defineTopNet( Goal[ COMPUTER ].getX(), Goal[ COMPUTER ].getY(), GOAL_WIDTH, GOAL_THICK );
     Goal[ COMPUTER ].defineBackNet( Goal[COMPUTER].getX(), Goal[ COMPUTER ].getY(), GOAL_THICK, GOAL_HEIGHT );
     Goal[ COMPUTER ].defineBlankSpace( Goal[ COMPUTER ].getX() + GOAL_THICK, Goal[ COMPUTER ].getY() - GOAL_THICK, GOAL_WIDTH - GOAL_THICK, GOAL_HEIGHT - GOAL_THICK);
