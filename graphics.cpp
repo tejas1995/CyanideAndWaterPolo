@@ -1,9 +1,11 @@
 #include "graphics.h"
 #include "structures.h"
-#include "enums.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
+
+const int BUTTON_WIDTH = 300;
+const int BUTTON_HEIGHT = 80;
 
 SDL_Window* mWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
@@ -127,6 +129,65 @@ int LTexture::getWidth()
 int LTexture::getHeight()
 {
 	return (this->mHeight);
+}
+
+LButton::LButton()
+{
+	this->mPosition.x = 0;
+	this->mPosition.y = 0;
+
+	this->mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+}
+
+void LButton::setPosition(int x, int y)
+{
+	this->mPosition.x = x;
+	this->mPosition.y = y;
+}
+
+void LButton::handleEvent(SDL_Event* e)
+{
+	bool inside = true;
+	if(e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP)
+	{
+		int x,y;
+		SDL_GetMouseState(&x, &y);
+
+		if(x < (this->mPosition.x))
+		{
+			inside = false;
+		}
+		else if(x > (this->mPosition.x) + BUTTON_WIDTH)
+		{
+			inside = true;
+		}
+		else if(y < (this->mPosition.y))
+		{
+			inside = false;
+		}
+		else if(y > (this->mPosition.y) + BUTTON_HEIGHT)
+		{
+			inside = false;
+		}
+	}
+	if(!inside)
+	{
+		this->mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+	}
+	else
+	{
+		switch(e->type)
+		{
+			case SDL_MOUSEBUTTONDOWN : this->mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;break;
+			case SDL_MOUSEBUTTONUP : this->mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;break;
+			case SDL_MOUSEMOTION : this->mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+		}
+	}
+}
+
+void LButton::render()
+{
+
 }
 
 bool init()
