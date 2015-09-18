@@ -1,6 +1,6 @@
 # CyanideAndWaterPolo
 
-##Installing SDL2:
+##Installing SDL2
 To compile this program, SDL2 libraries are required. The required components can be installed by executing the following commands on the Terminal :
 
 sudo apt-get install libsld2-dev
