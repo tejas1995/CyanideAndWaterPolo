@@ -1,26 +1,26 @@
 #include "structures.h"
 
-int mVector::getX(){
+float mVector::getX(){
 	return x;
 }
-int mVector::getY(){
+float mVector::getY(){
 	return y;
 }
-bool mVector::setX(int x1){
+bool mVector::setX(float x1){
 	x = x1;
 	return true; 
 }
-bool mVector::setY(int y1){
+bool mVector::setY(float y1){
 	y=y1;
 	return true;
 }
-int mVector::getSlope(){
+float mVector::getSlope(){
 	return y/x;
 }
-int mVector::getMag(){
+float mVector::getMag(){
 	return sqrt(y*y + x*x);
 }
-int mVector::dot(mVector a){
+float mVector::dot(mVector a){
 	return getX()*(a.getX()) + getY()*(a.getY());
 }
 ball::ball(){
@@ -44,11 +44,11 @@ int entity::getAngle(){
 	return angle;
 }
 
-int entity::getOmega(){
+float entity::getOmega(){
        return omega;
 }
 
-bool entity::setOmega(int o){
+bool entity::setOmega(float o){
 	omega = o;
 	return true;
 }
@@ -73,7 +73,7 @@ bool entity::setVelocity(mVector mV){
 	return true;
 }
 
-bool entity::setVelocity(int a, int b){
+bool entity::setVelocity(float a, float b){
 	velocity.setX(a);
 	velocity.setY(b);
 	return true;
@@ -104,24 +104,25 @@ bool player::setMode(int s){
 	return true;
 }
 
-bool player::setAttributes(int Jump, int Wade, int Swim)
+bool player::setAttributes(float Jump, float Wade, float Swim)
 {
 	maxJumpVelocity = Jump;
 	maxWadeVelocity = Wade;
 	maxSwimVelocity = Swim;
+	return 1;
 }
 
-int player::getMaxJumpVelocity()
+float player::getMaxJumpVelocity()
 {
 	return maxJumpVelocity;
 }
 
-int player::getMaxWadeVelocity()
+float player::getMaxWadeVelocity()
 {
 	return maxWadeVelocity;
 }
 
-int player::getMaxSwimVelocity()
+float player::getMaxSwimVelocity()
 {
 	return maxSwimVelocity;
 }
