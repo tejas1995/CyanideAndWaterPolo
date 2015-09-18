@@ -98,30 +98,31 @@ bool pollForUserInput()
         {
             userKeyStates[ KEY_W ] = 1;
         }
-        else if( currentKeyStates[ SDL_SCANCODE_A ] )
+        if( currentKeyStates[ SDL_SCANCODE_A ] )
         {
             userKeyStates[ KEY_A ] = 1;
         }
-        else if( currentKeyStates[ SDL_SCANCODE_S ] )
+        if( currentKeyStates[ SDL_SCANCODE_S ] )
         {
             userKeyStates[ KEY_S ] = 1;
         }
-        else if( currentKeyStates[ SDL_SCANCODE_D ] )
+        if( currentKeyStates[ SDL_SCANCODE_D ] )
         {
             userKeyStates[ KEY_D ] = 1;
         }
-        else if( currentKeyStates[ SDL_SCANCODE_LSHIFT ] || currentKeyStates[ SDL_SCANCODE_RSHIFT ])
+        if( currentKeyStates[ SDL_SCANCODE_LSHIFT ] || currentKeyStates[ SDL_SCANCODE_RSHIFT ])
         {
             userKeyStates[ KEY_SHIFT ] = 1;
         }
-        else if( currentKeyStates[ SDL_SCANCODE_K ] )
+        if( currentKeyStates[ SDL_SCANCODE_K ] )
         {
             userKeyStates[ KEY_K ] = 1;
         }
-        else if( currentKeyStates[ SDL_SCANCODE_L ] )
+        if( currentKeyStates[ SDL_SCANCODE_L ] )
         {
             userKeyStates[ KEY_L ] = 1;
         }
+
     }
 
     return quit;
@@ -155,17 +156,47 @@ void game()
         //Send userKeyStates to the physics model
         updateObjects(userKeyStates, Player, Goal, &Ball, &Water, USER);
 
-        //Check for Score updation
-        if(checkCollision(&Ball, Goal[ USER ].getBlankSpace()) != 0)
-            Score[ COMPUTER ] += 1;
-        else if(checkCollision(&Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
-            Score[ USER ] += 1;
-
-        //Get compKeyStates and send to the physics model
-
         getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
         
+        //Check for Score updation
+        bool scored = false;
+
+        if(checkCollision(Ball, Goal[ USER ].getBlankSpace()) != 0)
+        {
+            Score[ COMPUTER ] += 1;
+            scored = true;
+        }
+        else if(checkCollision(Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
+        {
+            scored = true;
+            Score[ USER ] += 1;
+        }
+
+        if(scored)
+        {
+            Player[ USER ].setX(480);
+            Player[ USER ].setY(BASE_HEIGHT);
+            Player[ USER ].getVelocity()->setX(0);
+            Player[ USER ].getVelocity()->setY(0);
+
+            //Initialize the computer player
+            Player[ COMPUTER ].setX(80);
+            Player[ COMPUTER ].setY(BASE_HEIGHT);
+            Player[ COMPUTER ].getVelocity()->setX(0);
+            Player[ COMPUTER ].getVelocity()->setY(0);
+            
+            //Initialize the Ball object
+            Ball.setX(306);
+            Ball.setY(160);
+            Ball.getVelocity()->setX(0);
+            Ball.getVelocity()->setY(0);
+        }
+
+        //Get compKeyStates and send to the physics model
+        getCompKeyStates(compKeyStates, Player, Goal, &Ball);
+        updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
+
         resetKeyStates();
         setTime(SDL_GetTicks(), startTime);
         frameRender(Player, &Ball);
