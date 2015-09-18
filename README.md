@@ -21,6 +21,9 @@ Run the executable from the CyanideAndWaterPolo directory using the command :
 The objective is to score as more goals than your opponent in the time period of 2 minutes.
 
 Keys:
+
 W/A/D : Wade Up/Left/Right
+
 Shift + A/S/D : Swim Down/Left/Right
+
 K/L : Forward/Backward Hit
