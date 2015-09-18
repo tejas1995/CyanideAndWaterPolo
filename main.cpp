@@ -25,7 +25,6 @@ using namespace std;
 #define INIT_ANGLE 150
 
 
->>>>>>> Resolved merge conflicts; Modified AI
 player Player[2];
 ball Ball;
 goal Goal[2];
