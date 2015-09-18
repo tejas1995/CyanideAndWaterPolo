@@ -112,7 +112,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 	}
 
 	if(checkCollision(player[USER], player[COMPUTER])>0){
-		collision React( eplayer[COMPUTER], eplayer[USER], 1, 1000, 0.9);
+		collisionReact( eplayer[COMPUTER], eplayer[USER], 1, 1000, 0.9);
 		colFlag = true;
 	}
 	if (colFlag){
