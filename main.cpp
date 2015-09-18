@@ -183,7 +183,8 @@ void game()
 
         if(scored)
         {
-            SDL_Delay(2000);
+            scoreUpdate(score);
+
             Player[ USER ].setX(840);
             Player[ USER ].setY(BASE_HEIGHT+10);
             Player[ USER ].getVelocity()->setX(0);
@@ -208,7 +209,7 @@ void game()
         resetKeyStates();
         seconds_remaining = setTime(SDL_GetTicks(), startTime);
 
-        if(seconds_remainig == 0)
+        if(seconds_remaining == 0)
         {
             if(score[USER] > score[COMPUTER])
                 printf("User wins\n");
@@ -218,6 +219,12 @@ void game()
                 printf("Draw!\n");
         }
         frameRender(Player, &Ball);
+
+        if(scored)
+        {
+            SDL_Delay(2000);
+            scored = false;
+        }
     }
 
     printf("User %d - %d Computer\n", Score[USER], Score[COMPUTER]);
