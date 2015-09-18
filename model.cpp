@@ -297,3 +297,15 @@ int collisionReact( entity* A, entity* B, int m1, int m2, float e){
 	B->setVelocity(vbx,vby);
 	return 0;
 }
+int handShot( player* player, ball* ball, float e, int r){
+	float angle = (player->getHand()->getAngle())*PI/180;
+	int vx = ball->getVelocity()->getX() - player->getVelocity()->getX();
+	int vy = ball->getVelocity()->getY() - player->getVelocity()->getY();
+	int omega = player->getHand()->getOmega();
+	int v1x = (vx*(sin(angle))*(sin(angle))) - (cos(angle)*((e*vx*cos(angle))-(e*vy*sin(angle)) + omega*r*(1+e))) - vy*cos(angle)*sin(angle);
+	int v1y = (vy*(cos(angle))*(cos(angle))) - (sin(angle)*((e*vx*cos(angle))-(e*vy*sin(angle)) + omega*r*(1+e))) - vx*cos(angle)*sin(angle);
+	int u1x = v1x + player->getVelocity()->getX();
+	int u1y = v1y + player->getVelocity()->getY();
+	ball->setVelocity(u1x, u1y);	
+	return 1;
+}

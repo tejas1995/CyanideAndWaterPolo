@@ -109,6 +109,11 @@ bool player::setAttributes(int Jump, int Wade, int Swim)
 	maxJumpVelocity = Jump;
 	maxWadeVelocity = Wade;
 	maxSwimVelocity = Swim;
+	return true;
+}
+
+hand* player::getHand(){
+	return &haath;
 }
 
 int player::getMaxJumpVelocity()

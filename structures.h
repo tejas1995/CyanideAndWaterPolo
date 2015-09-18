@@ -82,6 +82,7 @@ class player: public entity{
 		int getMaxSwimVelocity();
 		int getMode();
 		int getRadius();
+		hand* getHand();
 		bool setMode(int);
 };
 
