@@ -13,9 +13,9 @@
 using namespace std;
 
 int updateObjects(int* keystates, player* player, goal* goals, ball* ball, water* water, int pCode);																										
-int checkCollision(player player1, player player2);
-int checkCollision(ball ball, player player);
-int checkCollision(ball ball, hand hand);
-int checkCollision(ball ball, SDL_Rect goal);
+int checkCollision(player* player1, player* player2);
+int checkCollision(ball* ball, player* player);
+int checkCollision(ball* ball, hand* hand);
+int checkCollision(ball* ball, SDL_Rect goal);
 
 #endif

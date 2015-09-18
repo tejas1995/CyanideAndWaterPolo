@@ -5,10 +5,10 @@
 #include "enums.h"
 
 float distance(player* Player);
-float distance(player Player, ball Ball);
-float distance(player Player, goal Goal);
-float distance(ball Ball, goal Goal);
+float distance(player* Player, ball* Ball);
+float distance(player* Player, goal* Goal);
+float distance(ball* Ball, goal* Goal);
 void initCompKeyStates();
-int* getCompKeyStates(int*, player*, goal*, ball);
+int* getCompKeyStates(int*, player*, goal*, ball*);
 
 #endif

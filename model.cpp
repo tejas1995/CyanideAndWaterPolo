@@ -5,11 +5,11 @@
 #define BASE_HEIGHT 280
 
 int collisionReact( entity*, entity*, int, int, float);
-int checkCollision(player player1, player player2)
+int checkCollision(player* player1, player* player2)
 {
-	int x1 = player1.getX(); int x2 = player2.getX();
-	int y1 = player1.getY(); int y2 = player2.getY();
-	int r1 = player1.getRadius(); int r2 = player2.getRadius();
+	int x1 = player1->getX(); int x2 = player2->getX();
+	int y1 = player1->getY(); int y2 = player2->getY();
+	int r1 = player1->getRadius(); int r2 = player2->getRadius();
 
 	x1 += r1; y1 += r1; x2 += r2; y2 += r2;
 
@@ -22,11 +22,11 @@ int checkCollision(player player1, player player2)
 	return 0;
 }
 
-int checkCollision(ball ball, player player)
+int checkCollision(ball *ball, player *player)
 {
-	int x1 = player.getX(); int x2 = ball.getX();
-	int y1 = player.getY(); int y2 = ball.getY();
-	int r1 = player.getRadius(); int r2 = ball.getRadius();
+	int x1 = player->getX(); int x2 = ball->getX();
+	int y1 = player->getY(); int y2 = ball->getY();
+	int r1 = player->getRadius(); int r2 = ball->getRadius();
 
 	x1 += r1; y1 += r1; x2 += r2; y2 += r2;
 
@@ -39,17 +39,17 @@ int checkCollision(ball ball, player player)
 	return 0;
 }
 
-int checkCollision(ball ball, hand hand)
+int checkCollision(ball* ball, hand* hand)
 {
-	float theta = hand.getAngle()*PI/180.0;
+	float theta = hand->getAngle()*PI/180.0;
 	float cosine = cos(theta); float sine = sin(theta);
-	int radius = ball.getRadius();
-	int h = ball.getX();
-	int k = ball.getY();
-	int x = hand.getX();
-	int y = hand.getY();
-	int width = hand.getWidth();
-	int height = hand.getHeight();
+	int radius = ball->getRadius();
+	int h = ball->getX();
+	int k = ball->getY();
+	int x = hand->getX();
+	int y = hand->getY();
+	int width = hand->getWidth();
+	int height = hand->getHeight();
 
 	float distance = fabs(cosine*(h-x) - sine*(k-y));
 	float pointOfContact = sqrt((h-x)*(h-x) + (k-y)*(k-y) - distance*distance);
@@ -70,12 +70,12 @@ int checkCollision(ball ball, hand hand)
 	return 0;
 }
 
-int checkCollision(ball ball, SDL_Rect rect)
+int checkCollision(ball *ball, SDL_Rect rect)
 {
-	int ballTop = ball.getY();
-	int ballBottom = ball.getY() + 2*ball.getRadius();
-	int ballLeft = ball.getX();
-	int ballRight = ball.getX() + 2*ball.getRadius();
+	int ballTop = ball->getY();
+	int ballBottom = ball->getY() + 2*ball->getRadius();
+	int ballLeft = ball->getX();
+	int ballRight = ball->getX() + 2*ball->getRadius();
 
 	int rTop = rect.y;
 	int rBottom = rect.y + rect.h;
@@ -102,16 +102,16 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 	eplayer[0] = &player[0];
 	eplayer[1] = &player[1];
 	bool colFlag = false;
-	if(checkCollision(*ball, player[USER])>0){
+	if(checkCollision(ball, &player[USER])>0){
 		collisionReact( eball, eplayer[USER], 1, 10000, 0.9);
 		colFlag = true;
 	}
-	if(checkCollision(*ball, player[COMPUTER])>0){
+	if(checkCollision(ball, &player[COMPUTER])>0){
 		collisionReact( eball, eplayer[COMPUTER], 1, 10000, 0.9);
 		colFlag = true;
 	}
 
-	if(checkCollision(player[USER], player[COMPUTER])>0){
+	if(checkCollision(&player[USER], &player[COMPUTER])>0){
 		collisionReact( eplayer[COMPUTER], eplayer[USER], 1, 1000, 0.9);
 		colFlag = true;
 	}

@@ -14,31 +14,31 @@ float distance(player *Player)
     return Player[USER].getX() - Player[COMPUTER].getX();
 }
 
-float distance(player Player, ball Ball)
+float distance(player *Player, ball *Ball)
 {
-    return Ball.getX() - Player.getX();
+    return Ball->getX() - Player->getX();
 }
 
-float distance(player Player, goal Goal)
+float distance(player* Player, goal* Goal)
 {
-    return Goal.getBlankSpace().x - Player.getX();
+    return Goal->getBlankSpace().x - Player->getX();
 }
 
-float distance(goal Goal, ball Ball)
+float distance(goal* Goal, ball* Ball)
 {
-    return Goal.getBlankSpace().x - Ball.getX();
+    return Goal->getBlankSpace().x - Ball->getX();
 }
 
-int* getCompKeyStates(int* compKeyStates, player* Player, goal* Goal, ball Ball)
+int* getCompKeyStates(int* compKeyStates, player* Player, goal* Goal, ball* Ball)
 {
     float sUserCompDistance = distance(Player);
-    float sUserBallDistance = distance(Player[USER], Ball);
-    float sCompBallDistance = distance(Player[COMPUTER], Ball);
-    float sUGoalBallDistance = distance(Goal[USER], Ball);
-    float sCGoalBallDistance = distance(Goal[COMPUTER], Ball);
-    float sUserUGoalDistance = distance(Player[USER], Goal[USER]);
-    float sCompCGoalDistance = distance(Player[COMPUTER], Goal[COMPUTER]);
-    float sCompUGoalDistance = distance(Player[COMPUTER], Goal[USER]);
+    float sUserBallDistance = distance(&Player[USER], Ball);
+    float sCompBallDistance = distance(&Player[COMPUTER], Ball);
+    float sUGoalBallDistance = distance(&Goal[USER], Ball);
+    float sCGoalBallDistance = distance(&Goal[COMPUTER], Ball);
+    float sUserUGoalDistance = distance(&Player[USER], &Goal[USER]);
+    float sCompCGoalDistance = distance(&Player[COMPUTER], &Goal[COMPUTER]);
+    float sCompUGoalDistance = distance(&Player[COMPUTER], &Goal[USER]);
 
     if(sUserBallDistance*sCompBallDistance > 0)
     {

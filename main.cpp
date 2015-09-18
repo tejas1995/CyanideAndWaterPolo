@@ -155,13 +155,13 @@ void game()
         updateObjects(userKeyStates, Player, Goal, &Ball, &Water, USER);
 
         //Check for Score updation
-        if(checkCollision(Ball, Goal[ USER ].getBlankSpace()) != 0)
+        if(checkCollision(&Ball, Goal[ USER ].getBlankSpace()) != 0)
             Score[ COMPUTER ] += 1;
-        else if(checkCollision(Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
+        else if(checkCollision(&Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
             Score[ USER ] += 1;
 
         //Get compKeyStates and send to the physics model
-        getCompKeyStates(compKeyStates, Player, Goal, Ball);
+        getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
 
         resetKeyStates();

@@ -32,7 +32,7 @@ public:
 	void free();
 
 	//Render at (x,y)
-	void render(int x, int y, double angle=0.0, int center_x = -1, int center_y = -1);
+	void render(int x, int y, double angle=0.0, SDL_Point* center = NULL);
 
 	//Set blending
 	void setBlendMode(SDL_BlendMode blending);
