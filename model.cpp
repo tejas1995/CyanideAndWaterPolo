@@ -348,7 +348,7 @@ int collisionReact( entity* A, entity* B, int m1, int m2, float e){
 	dir.setY(B->getY()-A->getY());
 	float vNormalAf,vNormalAi,vNormalBf,vNormalBi;
 	vNormalAi = A->getVelocity()->dot(dir);
-	vNormalBi = A->getVelocity()->dot(dir);
+	vNormalBi = B->getVelocity()->dot(dir);
 
 	vNormalBf = (m1*vNormalAi*(1+e) + (m2-m1*e)*vNormalBi) / (m1+m2);
 	vNormalAf = (m2*vNormalBi*(1+e) + (m1-m2*e)*vNormalAi) / (m1+m2);
