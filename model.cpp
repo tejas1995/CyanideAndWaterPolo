@@ -122,28 +122,30 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		colFlag = true;
 	}
 
-	if(collideAxis = checkCollision(*ball, goals[USER].getTopNet()))
+	int collideAxis;
+	
+	if(collideAxis = checkCollision(ball, goals[USER].getTopNet()))
 	{
 		if(collideAxis == -1)
 		{
-			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()))
+			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()));
 		}
 		else if(collideAxis == -2)
 		{
-			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY())
+			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY());
 		}
 		colFlag = true;
 	}
 
-	if(collideAxis = checkCollision(*ball, goals[COMPUTER].getTopNet()))
+	if(collideAxis = checkCollision(ball, goals[COMPUTER].getTopNet()))
 	{
 		if(collideAxis == -1)
 		{
-			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()))
+			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()));
 		}
 		else if(collideAxis == -2)
 		{
-			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY())
+			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY());
 		}
 		colFlag = true;
 	}
@@ -236,7 +238,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		}
 		else
 		{
-			uvy -= (BUOYANCY - DRAG_COEFFICIENT*uvy)
+			uvy -= (BUOYANCY - DRAG_COEFFICIENT*uvy);
 		}
 
 	}
