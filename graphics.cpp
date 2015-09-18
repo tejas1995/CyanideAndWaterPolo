@@ -186,12 +186,12 @@ bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
 		else
 		{
 			if   
-   				(!(Player[ USER ].getTexture()->loadFromFile("img/player.png")&&
-        		Player[ COMPUTER ].getTexture()->loadFromFile("img/player.png")&&
+   				(!(Player[ USER ].getTexture()->loadFromFile("img/cnh-happy-1.png")&&
+        		Player[ COMPUTER ].getTexture()->loadFromFile("img/cnh-angry-1.png")&&
         		Goal[ USER ].getTexture()->loadFromFile("img/goal_0.png")&&
         		Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal_1.png")&&
         		Ball->getTexture()->loadFromFile("img/ball.png")&&
-        		Water->getTexture()->loadFromFile("img/water.png")
+        		Water->getTexture()->loadFromFile("img/waves.png")
         		//&& backTexture.loadFromFile("img/background.png")
         		))
 			return false;	
@@ -210,7 +210,7 @@ void frameRender(player *Player, ball *Ball)
 	SDL_RenderClear(gRenderer);
 	//backTexture.render(0,0);
 	textTexture.render((SCREEN_WIDTH - textTexture.getWidth())/2,0);
-	waterLocal->getTexture()->render(0, waterLocal->getDepth());
+	waterLocal->getTexture()->render(0, waterLocal->getDepth()-20);
 	Player[USER].getTexture()->render(Player[USER].getX(), Player[USER].getY(), Player[USER].getAngle());
 	Player[COMPUTER].getTexture()->render(Player[COMPUTER].getX(), Player[COMPUTER].getY(), Player[COMPUTER].getAngle());
 	goalLocal[USER].getTexture()->render(goalLocal[USER].getX(),goalLocal[USER].getY());
