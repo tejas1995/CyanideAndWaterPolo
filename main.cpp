@@ -18,6 +18,7 @@ using namespace std;
 #define CROSS_SWIM_TIME 8
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+#define BASE_HEIGHT 240
 
 player Player[2];
 ball Ball;
@@ -32,14 +33,14 @@ int compKeyStates[ KEY_TOTAL ];
 void initialize()
 {
     //Initialize the user player
-    Player[ USER ].setX(560);
-    Player[ USER ].setY(WATER_DEPTH);
+    Player[ USER ].setX(480);
+    Player[ USER ].setY(BASE_HEIGHT);
     Player[ USER ].getVelocity()->setX(0);
     Player[ USER ].getVelocity()->setY(0);
 
     //Initialize the computer player
     Player[ COMPUTER ].setX(80);
-    Player[ COMPUTER ].setY(WATER_DEPTH);
+    Player[ COMPUTER ].setY(BASE_HEIGHT);
     Player[ COMPUTER ].getVelocity()->setX(0);
     Player[ COMPUTER ].getVelocity()->setY(0);
     
@@ -160,10 +161,9 @@ void game()
         else if(checkCollision(Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
             Score[ USER ] += 1;
 
-        //Get compKeyStates and send to the physics model
-        getCompKeyStates(compKeyStates, Player, Goal, Ball);
+        getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
-
+        
         resetKeyStates();
         setTime(SDL_GetTicks(), startTime);
         frameRender(Player, &Ball);
