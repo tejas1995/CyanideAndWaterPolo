@@ -201,7 +201,7 @@ bool init()
 		printf("SDL init error");
 		return false;
 	}
-	mWindow = SDL_CreateWindow("waterpolo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	mWindow = SDL_CreateWindow("Cyanide and Water Polo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(mWindow == NULL)
 	{
 		printf("Window creation failed. SDL Error:%s\n", SDL_GetError());
