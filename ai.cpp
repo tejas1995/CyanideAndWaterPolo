@@ -21,23 +21,15 @@ float distance(player Player, ball Ball)
 
 float distance(player Player, goal Goal)
 {
-    return Goal.getBlankSpace().getX() - Player.getX();
+    return Goal.getBlankSpace().x - Player.getX();
 }
 
 float distance(goal Goal, ball Ball)
 {
-    return Goal.getBlankSpace.getX() - Ball.getX();
+    return Goal.getBlankSpace().x - Ball.getX();
 }
 
-int compKeyStates[KEY_TOTAL];
-
-void initCompKeyStates()
-{
-    for(int i = 0; i < KEY_TOTAL; i++)
-        compKeyStates[i] = 0;
-}
-
-int* getCompKeyStates(player* Player, goal* Goal, ball Ball)
+int* getCompKeyStates(int* compKeyStates, player* Player, goal* Goal, ball Ball)
 {
     float sUserCompDistance = distance(Player);
     float sUserBallDistance = distance(Player[USER], Ball);
