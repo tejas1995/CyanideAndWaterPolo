@@ -21,9 +21,14 @@ using namespace std;
 #define GRAVITY_ACCELERATION 0.2
 #define JUMP_VELOCITY 4.0
 #define WADE_VELOCITY 4.0
+<<<<<<< HEAD
 #define SWIM_VELOCITY 3.5
 #define INIT_ANGLE 150
 
+=======
+#define SWIM_VELOCITY 8.0
+#define INIT_ANGLE 150
+>>>>>>> khujao
 
 
 player Player[2];
