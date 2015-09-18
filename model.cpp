@@ -317,7 +317,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		colFlag = true;
 	}
 	if(checkCollision(ball, &player[COMPUTER])>0){
-		collisionReact( eball, eplayer[COMPUTER], 1, 10000, 0.9);
+		collisionReact( eball, eplayer[COMPUTER], 1, 900000, 0.9);
 		colFlag = true;
 	}
 
