@@ -161,7 +161,7 @@ void game()
             Score[ USER ] += 1;
 
         //Get compKeyStates and send to the physics model
-        compKeyStates = getCompKeyStates(Player, Goal, Ball);
+        getCompKeyStates(compKeyStates, Player, Goal, Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
 
         resetKeyStates();
