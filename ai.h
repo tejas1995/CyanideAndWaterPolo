@@ -8,7 +8,6 @@ float distance(player* Player);
 float distance(player* Player, ball* Ball);
 float distance(player* Player, goal* Goal);
 float distance(ball* Ball, goal* Goal);
-void initCompKeyStates();
-int* getCompKeyStates(int*, player*, goal*, ball*);
+void getCompKeyStates(int*, player*, goal*, ball*);
 
 #endif
