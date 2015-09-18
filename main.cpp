@@ -15,13 +15,14 @@ using namespace std;
 #define GOAL_WIDTH 80
 #define GOAL_HEIGHT 160
 #define GOAL_THICK 10
-#define CROSS_WADE_TIME 16
-#define CROSS_SWIM_TIME 8
-#define MAX_JUMP_HEIGHT 30
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
 #define BASE_HEIGHT 320
 #define GRAVITY_ACCELERATION 0.2
+#define JUMP_VELOCITY 1.0
+#define WADE_VELOCITY 4.0
+#define SWIM_VELOCITY 8.0
+
 
 player Player[2];
 ball Ball;
@@ -41,16 +42,16 @@ void initialize()
     Player[ USER ].setY(BASE_HEIGHT+10);
     Player[ USER ].getVelocity()->setX(0);
     Player[ USER ].getVelocity()->setY(0);
-    Player[ USER ].setAttributes(sqrt(2*GRAVITY_ACCELERATION*MAX_JUMP_HEIGHT), SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME);
     Player[ USER ].getHand()->setAngle(0);
+    Player[ USER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
     //Initialize the computer player
     Player[ COMPUTER ].setX(80);
     Player[ COMPUTER ].setY(BASE_HEIGHT+10);
     Player[ COMPUTER ].getVelocity()->setX(0);
     Player[ COMPUTER ].getVelocity()->setY(0);
-    Player[ COMPUTER ].setAttributes(sqrt(2*GRAVITY_ACCELERATION*MAX_JUMP_HEIGHT), SCREEN_WIDTH/CROSS_WADE_TIME, SCREEN_WIDTH/CROSS_SWIM_TIME);
     Player[ COMPUTER ].getHand()->setAngle(0);
+    Player[ COMPUTER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
     //Initialize the Ball object
     Ball.setX(478);
@@ -181,7 +182,6 @@ void game()
         
         //Send userKeyStates to the physics model
         updateObjects(userKeyStates, Player, Goal, &Ball, &Water, Wall, USER);
-
         getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, Wall, COMPUTER);
         
