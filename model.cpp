@@ -139,11 +139,11 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 	{
 		if(collideAxis == -1)
 		{
-			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()))
+			ball -> setVelocity(ball->getVelocity()->getX(),-(ball->getVelocity()->getY()));
 		}
 		else if(collideAxis == -2)
 		{
-			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY())
+			ball -> setVelocity(-(ball->getVelocity()->getX()),ball->getVelocity()->getY());
 		}
 		colFlag = true;
 	}
@@ -236,7 +236,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		}
 		else
 		{
-			uvy -= (BUOYANCY - DRAG_COEFFICIENT*uvy)
+			uvy -= (BUOYANCY - DRAG_COEFFICIENT*uvy);
 		}
 
 	}
