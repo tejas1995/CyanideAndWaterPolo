@@ -3,7 +3,7 @@
 #define KEY_PRESS_ACCELERATION_SWIM 2.0
 #define GRAVITY_ACCELERATION 0.4
 #define BASE_HEIGHT 320
-#define DOWNWARD_CONST_ACCELERATION 0.6
+#define DOWNWARD_CONST_ACCELERATION 1.9
 #define DRAG_COEFFICIENT 0.5
 #define BUOYANCY 0.4
 #define BALL_BASE_HEIGHT 360
@@ -150,14 +150,19 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 	{
 		if (keystates[KEY_A] == 1)
 		{
-			if(-uvx < player[pCode].getMaxWadeVelocity())
+			if(-uvx < player[pCode].getMaxWadeVelocity()){
 				uvx -= KEY_PRESS_ACCELERATION_WADE;
+			}
 		}
 
 		else
 		{
-			if(uvx < 0)
+			if(uvx < 0){
 				uvx += KEY_PRESS_ACCELERATION_WADE;
+				if (uvx > 0){
+					uvx=0;
+				}
+			}
 		}
 
 		if (keystates[KEY_D] == 1)
@@ -168,8 +173,12 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 		else
 		{
-			if(uvx > 0)
+			if(uvx > 0){
 				uvx -= KEY_PRESS_ACCELERATION_WADE;
+				if (uvx<0){
+					uvx=0;
+				}
+			}
 		}
 
 		if (keystates[KEY_W] == 1)
@@ -211,7 +220,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 		else
 		{
-			if(uvx < 0)
+			if(uvx > 0)
 				uvx += KEY_PRESS_ACCELERATION_SWIM;
 		}
 
