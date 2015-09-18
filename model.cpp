@@ -1,11 +1,11 @@
 #include "model.h"
 #define KEY_PRESS_ACCELERATION_WADE 1.0
 #define KEY_PRESS_ACCELERATION_SWIM 2.0
-#define GRAVITY_ACCELERATION 0.2
+#define GRAVITY_ACCELERATION 0.4
 #define BASE_HEIGHT 320
-#define DOWNWARD_CONST_ACCELERATION 0.4
-#define DRAG_COEFFICIENT 0.1
-#define BUOYANCY 0.2
+#define DOWNWARD_CONST_ACCELERATION 0.2
+#define DRAG_COEFFICIENT 0.5
+#define BUOYANCY 0.4
 #define BALL_BASE_HEIGHT 360
 
 int checkCollision(player* player1, player* player2)
@@ -144,7 +144,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 	int collideAxis;
 	
-	if(collideAxis = checkCollision(ball, goals[USER].getTopNet()))
+	if((collideAxis = checkCollision(ball, goals[USER].getTopNet())))
 	{
 		if(collideAxis == -1)
 		{
@@ -157,7 +157,7 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		colFlag = true;
 	}
 
-	if(collideAxis = checkCollision(ball, goals[COMPUTER].getTopNet()))
+	if((collideAxis = checkCollision(ball, goals[COMPUTER].getTopNet())))
 	{
 		if(collideAxis == -1)
 		{
@@ -175,36 +175,36 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		int collideWall = checkCollision(ball, wall[i]);
 		if(collideWall == -1)
 		{
-			ball -> setVelocity(ball->getVelocity()->getX(),0);
+			ball -> setVelocity(ball->getVelocity()->getX(),-1*ball->getVelocity()->getY());
 			colFlag = true;
 		}
 		else if(collideWall == -2)
 		{
-			ball -> setVelocity(0,ball->getVelocity()->getY());
+			ball -> setVelocity(-ball->getVelocity()->getX(),ball->getVelocity()->getY());
 			colFlag = true;
 		}
 
 		collideWall = checkCollision(&player[USER], wall[i]);
 		if(collideWall == -1)
 		{
-			player[USER].setVelocity(player[USER].getVelocity()->getX(),0);
+			player[USER].setVelocity(player[USER].getVelocity()->getX(),-1*player[USER].getVelocity()->getY());
 			colFlag = true;
 		}
 		else if(collideWall == -2)
 		{
-			player[USER].setVelocity(0,player[USER].getVelocity()->getY());
+			player[USER].setVelocity(-1*player[USER].getVelocity()->getX(),player[USER].getVelocity()->getY());
 			colFlag = true;
 		}
 
 		collideWall = checkCollision(&player[COMPUTER], wall[i]);
 		if(collideWall == -1)
 		{
-			player[COMPUTER].setVelocity(player[COMPUTER].getVelocity()->getX(),0);
+			player[COMPUTER].setVelocity(player[COMPUTER].getVelocity()->getX(), -1* player[COMPUTER].getVelocity()->getY());
 			colFlag = true;
 		}
 		else if(collideWall == -2)
 		{
-			player[COMPUTER].setVelocity(0,player[COMPUTER].getVelocity()->getY());
+			player[COMPUTER].setVelocity(-1*player[COMPUTER].getVelocity()->getX(),player[COMPUTER].getVelocity()->getY());
 			colFlag = true;
 		}		
 	}
