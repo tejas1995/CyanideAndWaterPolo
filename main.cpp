@@ -19,9 +19,10 @@ using namespace std;
 #define SCREEN_HEIGHT 600
 #define BASE_HEIGHT 320
 #define GRAVITY_ACCELERATION 0.2
-#define JUMP_VELOCITY 1.0
+#define JUMP_VELOCITY 4.0
 #define WADE_VELOCITY 4.0
 #define SWIM_VELOCITY 8.0
+#define INIT_ANGLE 150
 
 
 player Player[2];
@@ -42,7 +43,7 @@ void initialize()
     Player[ USER ].setY(BASE_HEIGHT+10);
     Player[ USER ].getVelocity()->setX(0);
     Player[ USER ].getVelocity()->setY(0);
-    Player[ USER ].getHand()->setAngle(0);
+    Player[ USER ].getHand()->setAngle(INIT_ANGLE);
     Player[ USER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
     //Initialize the computer player
@@ -50,7 +51,7 @@ void initialize()
     Player[ COMPUTER ].setY(BASE_HEIGHT+10);
     Player[ COMPUTER ].getVelocity()->setX(0);
     Player[ COMPUTER ].getVelocity()->setY(0);
-    Player[ COMPUTER ].getHand()->setAngle(0);
+    Player[ COMPUTER ].getHand()->setAngle(360 - INIT_ANGLE);
     Player[ COMPUTER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
     //Initialize the Ball object

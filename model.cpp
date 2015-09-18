@@ -7,6 +7,10 @@
 #define DRAG_COEFFICIENT 0.5
 #define BUOYANCY 0.4
 #define BALL_BASE_HEIGHT 360
+#define ANGULAR_VELOCITY 10
+#define MAX_ANGLE_FORWARD 60
+#define MAX_ANGLE_BACKWARD 390
+#define INIT_ANGLE 150
 
 int checkCollision(player* player1, player* player2)
 {
@@ -265,15 +269,35 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 				uvy = (-1)*player[pCode].getMaxJumpVelocity();
 			}
 		}
+
+		if(keystates[KEY_K] == 1)
+		{
+			if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) > MAX_ANGLE_FORWARD)
+			{
+				player[pCode].getHand() -> setOmega(ANGULAR_VELOCITY*pow(-1,1+pCode));
+			}
+
+			if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) == MAX_ANGLE_FORWARD)
+			{
+				player[pCode].getHand() -> setOmega(0);
+			}
+		}
+		else
+		{
+			if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) < INIT_ANGLE)
+			{
+				player[pCode].getHand() -> setOmega(ANGULAR_VELOCITY*pow(-1,pCode));
+			}
+		}
+
 		if(player[pCode].getY() < BASE_HEIGHT)
 		{
 			uvy += GRAVITY_ACCELERATION;
 		}
 		if(player[pCode].getY() > BASE_HEIGHT)
 		{
-			uvy -= (BUOYANCY - uvy*DRAG_COEFFICIENT);
+			uvy -= (BUOYANCY + uvy*DRAG_COEFFICIENT);
 		}
-
 	}
 	else if(player[pCode].getMode() == SWIM)
 	{
@@ -328,6 +352,8 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 	player[pCode].setVelocity(uvx, uvy);
 	ball->setVelocity(bvx,bvy);
 	changePositions(eball, eplayer);
+	player[USER].getHand() -> setAngle(player[USER].getHand() -> getAngle() + player[USER].getHand() -> getOmega());
+	player[COMPUTER].getHand() -> setAngle(player[COMPUTER].getHand() -> getAngle() + player[COMPUTER].getHand() -> getOmega());
 	return 0;
 }
 
