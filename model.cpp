@@ -8,7 +8,6 @@
 #define BUOYANCY 0.2
 #define BALL_BASE_HEIGHT 280
 
-
 int checkCollision(player* player1, player* player2)
 {
 	int x1 = player1->getX(); int x2 = player2->getX();
@@ -97,8 +96,8 @@ int checkCollision(ball *ball, SDL_Rect rect)
 	return 0;
 }
 
-int updateObjects(int* keystates, player player[], goal goals[], ball* ball, water* water, int pCode){
-	//Get mode
+int updateObjects(int* keystates, player player[], goal goals[], ball* ball, water* water, SDL_Rect wall[], int pCode){
+	
 	entity* eball;
 	entity* eplayer[2];
 	
@@ -148,6 +147,45 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		colFlag = true;
 	}
 
+	for(int i = 0; i<4; i++)
+	{
+		int collideWall = checkCollision(ball, wall[i]);
+		if(collideWall == -1)
+		{
+			ball -> setVelocity(ball->getVelocity()->getX(),0);
+			colFlag = true;
+		}
+		else if(collideWall == -2)
+		{
+			ball -> setVelocity(0,ball->getVelocity()->getY());
+			colFlag = true;
+		}
+
+		collideWall = checkCollision(player[USER], wall[i]);
+		if(collideWall == -1)
+		{
+			player[USER].setVelocity(player[USER].getVelocity()->getX(),0);
+			colFlag = true;
+		}
+		else if(collideWall == -2)
+		{
+			player[USER].setVelocity(0,player[USER].getVelocity()->getY());
+			colFlag = true;
+		}
+
+		collideWall = checkCollision(player[COMPUTER], wall[i]);
+		if(collideWall == -1)
+		{
+			player[COMPUTER].setVelocity(player[COMPUTER].getVelocity()->getX(),0);
+			colFlag = true;
+		}
+		else if(collideWall == -2)
+		{
+			player[COMPUTER].setVelocity(0,player[COMPUTER].getVelocity()->getY());
+			colFlag = true;
+		}		
+	}
+
 	if (colFlag){
 		bool success = false;
 		success = changePositions(eball, eplayer);
@@ -164,10 +202,11 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		player[pCode].setMode(SWIM);
 	}
 
-	else
+	else if(keystates[KEY_SHIFT] == 0)
 	{
 		player[pCode].setMode(WADE);
 	}
+
 	//Now we know the mode
 	
 	if(player[pCode].getMode() == WADE)
@@ -199,10 +238,19 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		if (keystates[KEY_W] == 1)
 		{
 			if(player[pCode].getY() == BASE_HEIGHT)
-				uvy = player[pCode].getMaxJumpVelocity();
-			else
-				uvy += GRAVITY_ACCELERATION;
+			{
+				uvy = (-1)*player[pCode].getMaxJumpVelocity();
+			}
 		}
+		if(player[pCode].getY() < BASE_HEIGHT)
+		{
+			uvy += GRAVITY_ACCELERATION;
+		}
+		if(player[pCode].getY() > BASE_HEIGHT)
+		{
+			uvy -= (BUOYANCY - uvy*DRAG_COEFFICIENT);
+		}
+
 	}
 	else if(player[pCode].getMode() == SWIM)
 	{
@@ -234,14 +282,9 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		{
 			uvy += (DOWNWARD_CONST_ACCELERATION - DRAG_COEFFICIENT*uvy);
 		}
-		else
-		{
-			uvy -= (BUOYANCY - DRAG_COEFFICIENT*uvy);
-		}
-
 	}
 
-	if(ball->getY() >= BALL_BASE_HEIGHT)
+	if(ball->getY() > BALL_BASE_HEIGHT)
 	{
 		bvx -= bvx*DRAG_COEFFICIENT;
 		bvy -= BUOYANCY*2 + bvy*DRAG_COEFFICIENT*3;
@@ -252,6 +295,13 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		bvy += GRAVITY_ACCELERATION;
 	}
 
+	if(ball->getY() == BALL_BASE_HEIGHT)
+	{
+		if(fabs(bvy) < 0.2)
+		{
+			bvy = 0;
+		}
+	}
 	player[pCode].setVelocity(uvx, uvy);
 	ball->setVelocity(bvx,bvy);
 	changePositions(eball, eplayer);
@@ -263,7 +313,9 @@ int changePositions(entity* eball, entity** eplayer)
 	eball -> setX(eball -> getX() + eball->getVelocity()->getX());
 	eball -> setY(eball -> getY() + eball->getVelocity()->getY());
 	eplayer[USER] -> setX(eplayer[USER] -> getX() + eplayer[USER]->getVelocity()->getX());
+	eplayer[USER] -> setY(eplayer[USER] -> getY() + eplayer[USER]->getVelocity()->getY());
 	eplayer[COMPUTER]->setX(eplayer[COMPUTER]->getX()+eplayer[COMPUTER]->getVelocity() -> getX());
+	eplayer[COMPUTER]->setY(eplayer[COMPUTER]->getY()+eplayer[COMPUTER]->getVelocity() -> getY());
 	return 1;
 }
 

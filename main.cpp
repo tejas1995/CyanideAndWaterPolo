@@ -14,8 +14,9 @@ using namespace std;
 #define GOAL_WIDTH 80
 #define GOAL_HEIGHT 160
 #define GOAL_THICK 10
-#define CROSS_WADE_TIME 16
-#define CROSS_SWIM_TIME 8
+#define JUMP_VELOCITY 1.0
+#define WADE_VELOCITY 4.0
+#define SWIM_VELOCITY 8.0
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 #define BASE_HEIGHT 240
@@ -37,12 +38,14 @@ void initialize()
     Player[ USER ].setY(BASE_HEIGHT);
     Player[ USER ].getVelocity()->setX(0);
     Player[ USER ].getVelocity()->setY(0);
+    Player[ USER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
 
     //Initialize the computer player
     Player[ COMPUTER ].setX(80);
     Player[ COMPUTER ].setY(BASE_HEIGHT);
     Player[ COMPUTER ].getVelocity()->setX(0);
     Player[ COMPUTER ].getVelocity()->setY(0);
+    Player[ COMPUTER ].setAttributes(JUMP_VELOCITY,WADE_VELOCITY,SWIM_VELOCITY);
     
     //Initialize the Ball object
     Ball.setX(306);
@@ -155,7 +158,6 @@ void game()
         
         //Send userKeyStates to the physics model
         updateObjects(userKeyStates, Player, Goal, &Ball, &Water, USER);
-
         getCompKeyStates(compKeyStates, Player, Goal, &Ball);
         updateObjects(compKeyStates, Player, Goal, &Ball, &Water, COMPUTER);
         
