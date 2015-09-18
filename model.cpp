@@ -3,7 +3,7 @@
 #define KEY_PRESS_ACCELERATION_SWIM 2.0
 #define GRAVITY_ACCELERATION 0.4
 #define BASE_HEIGHT 320
-#define DOWNWARD_CONST_ACCELERATION 1.9
+#define DOWNWARD_CONST_ACCELERATION 3.9
 #define DRAG_COEFFICIENT 0.5
 #define BUOYANCY 0.4
 #define BALL_BASE_HEIGHT 360
@@ -274,7 +274,9 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 
 		if (keystates[KEY_S] == 1)
 		{
+			//printf("\n in. prev uvy: %f", uvy);
 			uvy += (DOWNWARD_CONST_ACCELERATION - DRAG_COEFFICIENT*uvy);
+			//printf("\n new uvy: %f", uvy);
 		}
 		if(player[pCode].getY() < BASE_HEIGHT)
 		{
