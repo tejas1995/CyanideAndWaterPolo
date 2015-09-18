@@ -210,12 +210,12 @@ int updateObjects(int* keystates, player player[], goal goals[], ball* ball, wat
 		}
 		else
 		{
-			if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) > INIT_ANGLE + 10)
+			if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) > INIT_ANGLE + 5)
 			{
 				player[pCode].getHand() -> setOmega(ANGULAR_VELOCITY*pow(-1,1+pCode));
 			}
 
-			else if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) < INIT_ANGLE - 10)
+			else if(abs(pCode*360 - (player[pCode].getHand() -> getAngle())) < INIT_ANGLE - 5)
 			{
 				player[pCode].getHand() -> setOmega(ANGULAR_VELOCITY*pow(-1,pCode));
 			}
