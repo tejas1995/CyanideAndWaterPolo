@@ -162,12 +162,12 @@ void game()
         //Check for Score updation
         bool scored = false;
 
-        if(checkCollision(Ball, Goal[ USER ].getBlankSpace()) != 0)
+        if(checkCollision(&Ball, Goal[ USER ].getBlankSpace()) != 0)
         {
             Score[ COMPUTER ] += 1;
             scored = true;
         }
-        else if(checkCollision(Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
+        else if(checkCollision(&Ball, Goal[ COMPUTER ].getBlankSpace()) != 0)
         {
             scored = true;
             Score[ USER ] += 1;
