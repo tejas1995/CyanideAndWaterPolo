@@ -20,4 +20,5 @@ int checkCollision(ball* ball, SDL_Rect rect);
 int checkCollision(player* player, SDL_Rect rect);
 int collisionReact( entity*, entity*, int, int, float);
 int changePositions(entity* eball, entity* eplayer[]);
+int handShot( player* player, ball* ball, float e, int r);
 #endif

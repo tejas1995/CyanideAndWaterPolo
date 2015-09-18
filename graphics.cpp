@@ -323,6 +323,8 @@ void renderHand(player *Player, bool body)
 		hand_x+= (Player->getTexture()->getWidth())/6;*/
 	//hand_y = Player->getY() + (Player->getTexture()->getHeight())/2;
 	hand_y = Player->getY()+44;
+	Player->getHand()->setX(hand_x);
+	Player->getHand()->setY(hand_y);
 	Hand->getTexture()->render(hand_x, hand_y, -(Hand->getAngle()-180), 0, 0);
 }
 

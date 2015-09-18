@@ -64,6 +64,8 @@ class hand: public entity{
 		int width;
 		int height;
 	public:
+		int setHeight(int);
+		int setWidth(int);
 		int getWidth();
 		int getHeight();
 };
