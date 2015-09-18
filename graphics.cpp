@@ -11,10 +11,14 @@ SDL_Renderer* gRenderer = NULL;
 TTF_Font* gFont = NULL;
 
 std::stringstream timeText;
+std::stringstream scoreText[2];
 LTexture backTexture;
 LTexture textTexture;
+LTexture scoreTexture[2];
 water* waterLocal;
 goal* goalLocal;
+
+void renderHand(player*,bool);
 
 LTexture::LTexture()
 {
@@ -242,9 +246,21 @@ bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
 	{
 		SDL_Color textColor = {0,0,0};
 		timeText.str(" ");
+		scoreText[USER].str("USER 0");
+		scoreText[COMPUTER].str("COMPUTER 0");
 		if(!textTexture.loadFromRenderedText(timeText.str().c_str(), textColor))
 		{
 			printf("Could not render from Text.\n");
+			return false;
+		}
+		else if(!scoreTexture[USER].loadFromRenderedText(scoreText[USER].str().c_str(), textColor))
+		{
+			printf("Could not render from Text\n");
+			return false;
+		}
+		else if(!scoreTexture[COMPUTER].loadFromRenderedText(scoreText[COMPUTER].str().c_str(), textColor))
+		{
+			printf("Could not render from Text\n");
 			return false;
 		}
 		else
@@ -252,6 +268,8 @@ bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
 			if   
    				(!(Player[ USER ].getTexture()->loadFromFile("img/cnh-happy-1.png")&&
         		Player[ COMPUTER ].getTexture()->loadFromFile("img/cnh-angry-1.png")&&
+        		Player[USER].getHand()->getTexture()->loadFromFile("img/hand.png")&&
+        		Player[COMPUTER].getHand()->getTexture()->loadFromFile("img/hand.png")&&
         		Goal[ USER ].getTexture()->loadFromFile("img/goal_0.png")&&
         		Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal_1.png")&&
         		Ball->getTexture()->loadFromFile("img/ball.png")&&
@@ -276,8 +294,14 @@ void frameRender(player *Player, ball *Ball)
 	SDL_Delay(50);
 	backTexture.render(0,0);
 	textTexture.render((SCREEN_WIDTH - textTexture.getWidth())/2,0);
+	scoreTexture[USER].render((SCREEN_WIDTH - scoreTexture[USER].getWidth())-10,0);
+	scoreTexture[COMPUTER].render(10,0);
 	Player[USER].getTexture()->render(Player[USER].getX(), Player[USER].getY(), Player[USER].getAngle());
 	Player[COMPUTER].getTexture()->render(Player[COMPUTER].getX(), Player[COMPUTER].getY(), Player[COMPUTER].getAngle());
+	//Player[USER].getHand()->getTexture()->render( (Player[USER].getX() + Player[USER].getTexture()->getWidth())/2 , (Player[USER].getY() + Player[USER].getTexture()->getHeight())/2, Player[USER].getHand()->getAngle());
+	//Player[COMPUTER].getHand()->getTexture()->render( (Player[COMPUTER].getX() + Player[COMPUTER].getTexture()->getWidth())/2 , (Player[COMPUTER].getY() + Player[COMPUTER].getTexture()->getHeight())/2, Player[COMPUTER].getHand()->getAngle());
+	renderHand(&Player[USER], USER);
+	renderHand(&Player[COMPUTER], COMPUTER);
 	goalLocal[USER].getTexture()->render(goalLocal[USER].getX(),goalLocal[USER].getY());
 	goalLocal[COMPUTER].getTexture()->render(goalLocal[COMPUTER].getX(),goalLocal[COMPUTER].getY());
 	Ball->getTexture()->render(Ball->getX(),Ball->getY());
@@ -285,6 +309,21 @@ void frameRender(player *Player, ball *Ball)
 	
 	//printf("pass%d %d\n", Player[USER].getX(), Player[USER].getY());
 	SDL_RenderPresent(gRenderer);
+}
+
+void renderHand(player *Player, bool body)
+{
+	int hand_x = 0;
+	int hand_y = 0;
+	hand* Hand = Player->getHand();
+	hand_x = Player->getX() + (Player->getTexture()->getWidth())/2;
+	/*if(body == USER)
+		hand_x-= (Player->getTexture()->getWidth())/6;
+	else if(body == COMPUTER)
+		hand_x+= (Player->getTexture()->getWidth())/6;*/
+	//hand_y = Player->getY() + (Player->getTexture()->getHeight())/2;
+	hand_y = waterLocal->getDepth();
+	Hand->getTexture()->render(hand_x, hand_y, Hand->getAngle()-180, 0, 0);
 }
 
 unsigned int setTime(unsigned int currTime, unsigned int startTime)
@@ -299,6 +338,18 @@ unsigned int setTime(unsigned int currTime, unsigned int startTime)
 	return durationSecs;
 }
 
+void scoreUpdate(int scores[])
+{
+	SDL_Color textColor = {0,0,0};
+		scoreText[USER].str("");
+		scoreText[USER]<<"USER "<<scores[USER];
+		scoreText[COMPUTER].str("");
+		scoreText[COMPUTER]<<"COMPUTER "<<scores[COMPUTER];
+		scoreTexture[USER].loadFromRenderedText(scoreText[USER].str().c_str(), textColor);
+		scoreTexture[COMPUTER].loadFromRenderedText(scoreText[COMPUTER].str().c_str(), textColor);
+		scoreText[USER].str("");
+		scoreText[COMPUTER].str("");
+}
 void closeObjectTextures(player *Player, ball *Ball)
 {
 	//backTexture.free();
