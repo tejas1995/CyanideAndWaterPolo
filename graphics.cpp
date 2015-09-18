@@ -188,8 +188,8 @@ bool loadMedia(player *Player, goal *Goal, ball *Ball, water* Water)
 			if   
    				(!(Player[ USER ].getTexture()->loadFromFile("img/player.png")&&
         		Player[ COMPUTER ].getTexture()->loadFromFile("img/player.png")&&
-        		Goal[ USER ].getTexture()->loadFromFile("img/goal.png")&&
-        		Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal.png")&&
+        		Goal[ USER ].getTexture()->loadFromFile("img/goal_0.png")&&
+        		Goal[ COMPUTER ].getTexture()->loadFromFile("img/goal_1.png")&&
         		Ball->getTexture()->loadFromFile("img/ball.png")&&
         		Water->getTexture()->loadFromFile("img/water.png")
         		//&& backTexture.loadFromFile("img/background.png")
