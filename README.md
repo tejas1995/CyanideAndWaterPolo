@@ -16,6 +16,8 @@ sudo apt-get install libsdl2-ttf-dev
 
 ### Windows
 
+Follow the insrtuctions at these tutorial websites:
+
 SDL2: http://lazyfoo.net/tutorials/SDL/01_hello_SDL/windows/index.php
 
 SDL2 Image libraries: http://lazyfoo.net/tutorials/SDL/06_extension_libraries_and_loading_other_image_formats/windows/index.php
