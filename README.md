@@ -22,7 +22,9 @@ The objective is to score as more goals than your opponent in the time period of
 
 Keys:
 
-W/A/D : Wade Up/Left/Right
+W: Jump
+
+/A/D : Wade Up/Left/Right
 
 Shift + A/S/D : Swim Down/Left/Right
 
